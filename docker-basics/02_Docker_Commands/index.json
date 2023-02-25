@@ -1,0 +1,32 @@
+{
+  "title": "02. Docker commands",
+  "description": "Docker 명령어 실습",
+  "difficulty": "beginner",
+  "time": "10 minutes",
+  "details": {
+    "intro": {
+      "text": "intro.md"
+    },    
+    "steps": [
+		  {
+		    "title": "Step 1 - 이미지 검색하기",
+		    "text": "step1.md"
+		  },
+		  {
+		    "title": "Step 2 - 이미지 다운로드(Pull)하기",
+		    "text": "step2.md"
+		  },
+		  {
+		    "title": "Step 3 - 컨테이너 실행하기",
+		    "text": "step3.md"
+		  },
+		  {
+		    "title": "Step 4 - 이미지 업로드(Push)하기",
+		    "text": "step4.md"
+		  }
+	  ]
+  },
+  "backend": {
+    "imageid": "ubuntu"
+  }
+}

@@ -1,6 +1,6 @@
 {
-  "title": "07. Kubernetes Overview",
-  "description": "kubectl 기본 명령어 실습",
+  "title": "04. Docker network",
+  "description": "Docker network 실습",
   "difficulty": "beginner",
   "time": "10 minutes",
   "details": {
@@ -9,12 +9,12 @@
     },    
     "steps": [
 		  {
-		    "title": "Step 1 - kubectl 기본 명령어 사용",
+		    "title": "Step 1 - Bridge network을 이용하여 Todo app. 실행하기",
 		    "text": "step1.md"
 		  }
 	  ]
   },
   "backend": {
-    "imageid": "kubernetes-kubeadm-2nodes"
+    "imageid": "ubuntu"
   }
 }

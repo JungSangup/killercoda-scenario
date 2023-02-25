@@ -39,7 +39,7 @@ Successfully built 25d534982391
 Successfully tagged docker-101:latest
 ```
 
-> **명령어** : `docker build --tag docker-101 .`{{exec}}
+> 💻 명령어 `docker build --tag docker-101 .`{{exec}}
 
 뭔가 열심히 만든 것 같네요.  
 Download도 하고, COPY도 하고, Install도 하고...  
@@ -53,6 +53,6 @@ REPOSITORY   TAG         IMAGE ID       CREATED         SIZE
 docker-101   latest      25d534982391   2 minutes ago   172MB
 ```
 
-> **명령어** : `docker images`{{exec}}
+> 💻 명령어 `docker images`{{exec}}
 
 위 처럼 docker-101 이 보이면 성공입니다. ٩(ˊᗜˋ*)و

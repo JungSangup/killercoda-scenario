@@ -17,30 +17,26 @@
       "title": "09. Kubernetes Workload(2) - ReplicaSet, Deployment",
       "description": "ReplicaSet, Deployment 관리 실습"
     },
+
     {
-      "path": "10_Kubernetes_Service",
-      "title": "10. Kubernetes Service",
-      "description": "Service 이용 실습"
+      "path": "11_Kubernetes_Storage",
+      "title": "11. Kubernetes Storage",
+      "description": "PVC/PV 생성 및 사용 실습"
     },
     {
-      "path": "11_Kubernetes_Deployment_strategies",
-      "title": "11. Kubernetes Deployment strategies",
-      "description": "Recreate/RollingUpdate 실습"
-    },
-    {
-      "path": "12_Kubernetes_ConfigMaps_n_Secrets",
-      "title": "12. Kubernetes ConfigMaps & Secrets",
+      "path": "12_Kubernetes_Configuration",
+      "title": "12. Kubernetes Configuration",
       "description": "ConfigMap, Secret 생성 및 사용 실습"
     },
     {
-      "path": "13_Kubernetes_Horizontal_Pod_Autoscaler",
-      "title": "13. Kubernetes Horizontal Pod Autoscaler",
-      "description": "Horizontal Pod Autoscaler(HPA) 사용 실습"
+      "path": "13_Kubernetes_Deployment_strategies",
+      "title": "13. Kubernetes Deployment strategies",
+      "description": "Recreate/RollingUpdate 실습"
     },
     {
-      "path": "14_Kubernetes_Volume",
-      "title": "14. Kubernetes Volume",
-      "description": "PVC/PV 생성 및 사용 실습"
+      "path": "14_Kubernetes_Horizontal_Pod_Autoscaler",
+      "title": "14. Kubernetes Horizontal Pod Autoscaler",
+      "description": "Horizontal Pod Autoscaler(HPA) 사용 실습"
     },
     {
       "path": "15_Helm",

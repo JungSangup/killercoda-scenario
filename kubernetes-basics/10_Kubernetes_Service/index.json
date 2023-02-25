@@ -9,16 +9,12 @@
     },    
     "steps": [
 		  {
-		    "title": "Step 1 - Pod IP를 이용한 방법",
+		    "title": "Step 1 - Service를 이용해서 Pod에 연결하기",
 		    "text": "step1.md"
 		  },
       {
-		    "title": "Step 2 - ClusterIP 타입 Service를 이용한 방법",
+		    "title": "Step 2 - Ingress를  이용해서 Pod에 연결하기",
 		    "text": "step2.md"
-		  },
-      {
-		    "title": "Step 3 - NodePort 타입 Service를 이용한 방법",
-		    "text": "step3.md"
 		  }
 	  ],
     "assets": {
@@ -27,8 +23,7 @@
             {"file": "nginx-clusterip-service.yaml", "target": "~/lab"},
             {"file": "nginx-nodeport-service.yaml", "target": "~/lab"},
             {"file": "nginx-loadbalancer-service.yaml", "target": "~/lab"},
-            {"file": "todo-deployment.yaml", "target": "~/lab"},
-            {"file": "todo-nodeport-service.yaml", "target": "~/lab"}
+            {"file": "nginx-ingress.yaml", "target": "~/lab"}
         ]
     }
   },

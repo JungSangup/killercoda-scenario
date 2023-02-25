@@ -8,28 +8,23 @@
       "description": "Docker 맛보기"
     },
     {
-      "path": "02_Docker_Layers",
-      "title": "02. Docker layers",
-      "description": "Docker layer 실습"
-    },
-    {
-      "path": "03_Docker_Commands",
-      "title": "03. Docker commands",
+      "path": "02_Docker_Commands",
+      "title": "02. Docker commands",
       "description": "Docker 명령어 실습"
     },
     {
-      "path": "04_Docker_Volumes",
-      "title": "04. Docker volumes",
-      "description": "Docker volume 실습"
+      "path": "03_Docker_Storage",
+      "title": "03. Docker storage",
+      "description": "Docker storage 실습"
     },
     {
-      "path": "05_Docker_Network",
-      "title": "05. Docker network",
+      "path": "04_Docker_Network",
+      "title": "04. Docker network",
       "description": "Docker network 실습"
     },
     {
-      "path": "06_Dockerfile",
-      "title": "06. Dockerfile",
+      "path": "05_Dockerfile",
+      "title": "05. Dockerfile",
       "description": "Dockerfile 실습"
     },
     {
