@@ -1,0 +1,28 @@
+{
+  "title": "01. Docker intro",
+  "description": "Docker 맛보기",
+  "difficulty": "beginner",
+  "time": "10 minutes",
+  "details": {
+    "intro": {
+      "text": "intro.md"
+    },    
+    "steps": [
+		  {
+		    "title": "Step 1 - 샘플 애플리케이션 준비하기",
+		    "text": "step1.md"
+		  },
+		  {
+		    "title": "Step 2 - 도커 이미지 만들기",
+		    "text": "step2.md"
+		  },
+		  {
+		    "title": "Step 3 - 컨테이너 실행하기",
+		    "text": "step3.md"
+		  }
+	  ]
+  },
+  "backend": {
+    "imageid": "ubuntu"
+  }
+}

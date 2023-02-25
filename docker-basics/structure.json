@@ -1,0 +1,41 @@
+{
+  "title": "Docker Basics",
+  "description": "Hands-on scenarios for beginners",
+  "items": [
+    {
+      "path": "01_Docker_Intro",
+      "title": "01. Docker intro",
+      "description": "Docker 맛보기"
+    },
+    {
+      "path": "02_Docker_Layers",
+      "title": "02. Docker layers",
+      "description": "Docker layer 실습"
+    },
+    {
+      "path": "03_Docker_Commands",
+      "title": "03. Docker commands",
+      "description": "Docker 명령어 실습"
+    },
+    {
+      "path": "04_Docker_Volumes",
+      "title": "04. Docker volumes",
+      "description": "Docker volume 실습"
+    },
+    {
+      "path": "05_Docker_Network",
+      "title": "05. Docker network",
+      "description": "Docker network 실습"
+    },
+    {
+      "path": "06_Dockerfile",
+      "title": "06. Dockerfile",
+      "description": "Dockerfile 실습"
+    },
+    {
+      "path": "Docker_Playground",
+      "title": "٩(ˊᗜˋ*)و Docker playground",
+      "description": "Docker 놀이터"
+    }
+  ]
+}

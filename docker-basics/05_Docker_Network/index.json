@@ -1,0 +1,20 @@
+{
+  "title": "05. Docker network",
+  "description": "Docker network 실습",
+  "difficulty": "beginner",
+  "time": "10 minutes",
+  "details": {
+    "intro": {
+      "text": "intro.md"
+    },    
+    "steps": [
+		  {
+		    "title": "Step 1 - Network 이용한 애플리케이션 구성",
+		    "text": "step1.md"
+		  }
+	  ]
+  },
+  "backend": {
+    "imageid": "ubuntu"
+  }
+}

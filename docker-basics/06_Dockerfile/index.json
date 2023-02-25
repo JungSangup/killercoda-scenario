@@ -1,0 +1,35 @@
+{
+  "title": "06. Dockerfile",
+  "description": "Dockerfile 실습",
+  "difficulty": "beginner",
+  "time": "10 minutes",
+  "details": {
+    "intro": {
+      "text": "intro.md"
+    },    
+    "steps": [
+		  {
+		    "title": "Step 1 - Dockerfile 작성",
+		    "text": "step1.md"
+		  },
+      {
+		    "title": "Step 2 - Docker 이미지 생성 (docker build)",
+		    "text": "step2.md"
+		  },
+      {
+		    "title": "Step 3 - Multi-stage build",
+		    "text": "step3.md"
+		  }
+	  ],
+    "assets": {
+        "host01": [
+            {"file": "HelloDocker.java", "target": "~/lab"},
+            {"file": "Dockerfile1", "target": "~/lab"},
+            {"file": "Dockerfile2", "target": "~/lab"}
+        ]
+    }
+  },
+  "backend": {
+    "imageid": "ubuntu"
+  }
+}

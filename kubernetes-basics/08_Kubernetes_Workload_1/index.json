@@ -1,0 +1,32 @@
+{
+  "title": "08. Kubernetes Workload(1) - Pod",
+  "description": "Pod 관리 실습 (명령형/선언형)",
+  "difficulty": "beginner",
+  "time": "15 minutes",
+  "details": {
+    "intro": {
+      "text": "intro.md"
+    },    
+    "steps": [
+		  {
+		    "title": "Step 1 - 여러가지 방법으로 Pod 생성하기",
+		    "text": "step1.md"
+		  },
+      {
+		    "title": "Step 2 - liveness probe 사용 해보기",
+		    "text": "step2.md"
+		  }
+	  ],
+    "assets": {
+        "host01": [
+            {"file": "nginx2-pod.yaml", "target": "~/lab"},
+            {"file": "nginx3-pod.yaml", "target": "~/lab"},
+            {"file": "livenessProbe_httpGet.yaml", "target": "~/lab"},
+            {"file": "livenessProbe_tcpSocket.yaml", "target": "~/lab"}
+        ]
+    }
+  },
+  "backend": {
+    "imageid": "kubernetes-kubeadm-2nodes"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "title": "07. Kubernetes Overview",
+  "description": "Kubernetes 기본 명령어 실습",
+  "difficulty": "beginner",
+  "time": "10 minutes",
+  "details": {
+    "intro": {
+      "text": "intro.md"
+    },    
+    "steps": [
+		  {
+		    "title": "Step 1 - Kubernetes 기본 명령어 사용해보기",
+		    "text": "step1.md"
+		  }
+	  ]
+  },
+  "backend": {
+    "imageid": "kubernetes-kubeadm-2nodes"
+  }
+}

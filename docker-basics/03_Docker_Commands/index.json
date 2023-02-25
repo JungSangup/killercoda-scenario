@@ -1,0 +1,24 @@
+{
+  "title": "03. Docker commands",
+  "description": "Docker 명령어 실습",
+  "difficulty": "beginner",
+  "time": "10 minutes",
+  "details": {
+    "intro": {
+      "text": "intro.md"
+    },    
+    "steps": [
+		  {
+		    "title": "Step 1 - Docker 명령어 사용하기",
+		    "text": "step1.md"
+		  },
+		  {
+		    "title": "Step 2 - Docker hub에 이미지 등록하기",
+		    "text": "step2.md"
+		  }
+	  ]
+  },
+  "backend": {
+    "imageid": "ubuntu"
+  }
+}

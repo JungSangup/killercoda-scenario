@@ -1,0 +1,24 @@
+{
+  "title": "02. Docker layers",
+  "description": "Docker layer 실습",
+  "difficulty": "beginner",
+  "time": "10 minutes",
+  "details": {
+    "intro": {
+      "text": "intro.md"
+    },    
+    "steps": [
+		  {
+		    "title": "Step 1 - 이미지 Pull (docker pull)",
+		    "text": "step1.md"
+		  },
+		  {
+		    "title": "Step 2 - 새로운 이미지 생성 (docker commit)",
+		    "text": "step2.md"
+		  }
+	  ]
+  },
+  "backend": {
+    "imageid": "ubuntu"
+  }
+}

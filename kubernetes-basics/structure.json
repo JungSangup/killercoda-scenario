@@ -1,0 +1,56 @@
+{
+  "title": "Kubernetes Basics",
+  "description": "Hands-on scenarios for beginners",
+  "items": [
+    {
+      "path": "07_Kubernetes_Overview",
+      "title": "07. Kubernetes Overview",
+      "description": "Kubernetes 기본 명령어 실습"
+    },
+    {
+      "path": "08_Kubernetes_Workload_1",
+      "title": "08. Kubernetes Workload(1) - Pod",
+      "description": "Pod 관리 실습 (명령형/선언형)"
+    },
+    {
+      "path": "09_Kubernetes_Workload_2",
+      "title": "09. Kubernetes Workload(2) - ReplicaSet, Deployment",
+      "description": "ReplicaSet, Deployment 관리 실습"
+    },
+    {
+      "path": "10_Kubernetes_Service",
+      "title": "10. Kubernetes Service",
+      "description": "Service 이용 실습"
+    },
+    {
+      "path": "11_Kubernetes_Deployment_strategies",
+      "title": "11. Kubernetes Deployment strategies",
+      "description": "Recreate/RollingUpdate 실습"
+    },
+    {
+      "path": "12_Kubernetes_ConfigMaps_n_Secrets",
+      "title": "12. Kubernetes ConfigMaps & Secrets",
+      "description": "ConfigMap, Secret 생성 및 사용 실습"
+    },
+    {
+      "path": "13_Kubernetes_Horizontal_Pod_Autoscaler",
+      "title": "13. Kubernetes Horizontal Pod Autoscaler",
+      "description": "Horizontal Pod Autoscaler(HPA) 사용 실습"
+    },
+    {
+      "path": "14_Kubernetes_Volume",
+      "title": "14. Kubernetes Volume",
+      "description": "PVC/PV 생성 및 사용 실습"
+    },
+    {
+      "path": "15_Helm",
+      "title": "15. Helm",
+      "description": "Helm 명령어 및 기본구조 학습"
+    },
+    {
+      "path": "Kubernetes_Playground",
+      "title": "٩(ˊᗜˋ*)و Kubernetes playground",
+      "description": "Kubernetes 놀이터"
+    }
+  ]
+}
