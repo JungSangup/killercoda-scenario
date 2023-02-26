@@ -29,7 +29,7 @@
             {"file": "nginx-nodeport-service.yaml", "target": "~/lab"},
             {"file": "todo-pv.yaml", "target": "~/lab"},
             {"file": "todo-pvc.yaml", "target": "~/lab"},
-            {"file": "todo-deployment-volume", "target": "~/lab"},
+            {"file": "todo-deployment-volume.yaml", "target": "~/lab"},
             {"file": "todo-nodeport-service.yaml", "target": "~/lab"}
         ]
     }

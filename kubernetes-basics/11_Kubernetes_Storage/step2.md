@@ -56,7 +56,8 @@ service/nginx-nodeport-service created
 
 <br><br><br>
 
-아직 한 가지 더 할 일이 남았습니다.
+아직 한 가지 더 할 일이 남았습니다.  
+⚠️ 아래 명령는 pod들이 모두 생성된 후 실행해주세요.
 ```bash
 ubuntu@ip-172-31-23-60:~$ echo '<h1>Hello kubernetes</h1>' >> /tmp/hostpath-provisioner/default/nginx-pvc/index.html
 ```
@@ -76,7 +77,7 @@ Nginx는 (worker) node에서 실행되기 때문에, **node01**의 hostpath(/mnt
 
 🔗 [Nginx]({{TRAFFIC_HOST1_30007}})
 
-![h:200](./img/k8s_nginx_pvc.png)
+![h:200](./img/k8s_nginx_pv.png)
 
 Pod의 파일시스템에도 위의 내용이 반영되어 있는지도 확인해보세요.
 ```bash
