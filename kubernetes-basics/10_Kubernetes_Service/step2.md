@@ -109,8 +109,13 @@ Handling connection for 80
 
 > 💻 명령어 `kubectl port-forward --namespace=ingress-nginx service/ingress-nginx-controller 80:80`{{exec}}
 
-👋🏼 위의 명령을 실행하면, 그 탭에서는 다른 명령어는 실행할 수 없습니다.  
-탭을 하나 더 실행해서, 아래 명령어들을 실행해주세요.  (탭은 터미널 화면 좌측 상단에 있습니다.)  
+<br><br><br>
+
+👋🏼 위의 명령을 실행하면, 그 탭(Tab 1)에서는 다른 명령어는 실행할 수 없습니다.  
+탭을 하나 더 실행해서, 아래 명령어들을 실행해주세요.  
+> 탭 추가 방법 : 터미널 화면 좌측 상단의 **Tab 1** 옆의 **+**를 클릭하세요.
+
+<br><br><br>
 
 마지막으로 한 가지 /etc/hosts 파일에 ingress host를 등록해줍니다.
 
