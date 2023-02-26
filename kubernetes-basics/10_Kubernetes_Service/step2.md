@@ -99,15 +99,23 @@ ingress.networking.k8s.io/my-nginx-ingress created
 다음은 로컬 포트를 Ingress controller로 연결합니다.  
 
 ```bash
-
+controlplane $ kubectl port-forward --namespace=ingress-nginx service/ingress-nginx-controller 80:80
+Forwarding from 127.0.0.1:80 -> 80
+Forwarding from [::1]:80 -> 80
+Handling connection for 80
+Handling connection for 80
+Handling connection for 80
 ```
 
 > 💻 명령어 `kubectl port-forward --namespace=ingress-nginx service/ingress-nginx-controller 80:80`{{exec}}
 
+👋🏼 위의 명령을 실행하면, 그 탭에서는 다른 명령어는 실행할 수 없습니다.  
+탭을 하나 더 실행해서, 아래 명령어들을 실행해주세요.  (탭은 터미널 화면 좌측 상단에 있습니다.)  
+
 마지막으로 한 가지 /etc/hosts 파일에 ingress host를 등록해줍니다.
 
 ```bash
-
+controlplane $ echo '127.0.0.1 my-nginx.info' >> /etc/hosts
 ```
 
 > 💻 명령어 `echo '127.0.0.1 my-nginx.info' >> /etc/hosts`{{exec}}
@@ -115,7 +123,32 @@ ingress.networking.k8s.io/my-nginx-ingress created
 이제 curl 명령어를 이용해서 연결해볼까요?
 
 ```bash
+controlplane $ curl http://my-nginx.info
+<!DOCTYPE html>
+<html>
+<head>
+<title>Welcome to nginx!</title>
+<style>
+    body {
+        width: 35em;
+        margin: 0 auto;
+        font-family: Tahoma, Verdana, Arial, sans-serif;
+    }
+</style>
+</head>
+<body>
+<h1>Welcome to nginx!</h1>
+<p>If you see this page, the nginx web server is successfully installed and
+working. Further configuration is required.</p>
 
+<p>For online documentation and support please refer to
+<a href="http://nginx.org/">nginx.org</a>.<br/>
+Commercial support is available at
+<a href="http://nginx.com/">nginx.com</a>.</p>
+
+<p><em>Thank you for using nginx.</em></p>
+</body>
+</html>
 ```
 
 > 💻 명령어 `curl http://my-nginx.info`{{exec}}
