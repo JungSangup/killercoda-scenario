@@ -9,14 +9,28 @@
     },    
     "steps": [
 		  {
-		    "title": "Step 1 - PVC/PV 사용 해보기",
+		    "title": "Step 1 - PersistentVolumeClaim(PVC), PersistentVolume(PV) 생성하기",
 		    "text": "step1.md"
+		  },
+      {
+		    "title": "Step 2 - Volume을 사용하여 Pod 생성하기",
+		    "text": "step2.md"
+		  },
+      {
+		    "title": "Step 3 - Volume을 사용하여 Todo App. 실행해보기",
+		    "text": "step3.md"
 		  }
 	  ],
     "assets": {
         "host01": [
-            {"file": "metrics-server-components.yaml", "target": "~/lab"},
-            {"file": "php-apache.yaml", "target": "~/lab"}
+            {"file": "nginx-pv.yaml", "target": "~/lab"},
+            {"file": "nginx-pvc.yaml", "target": "~/lab"},
+            {"file": "nginx-deployment-volume.yaml", "target": "~/lab"},
+            {"file": "nginx-nodeport-service.yaml", "target": "~/lab"},
+            {"file": "todo-pv.yaml", "target": "~/lab"},
+            {"file": "todo-pvc.yaml", "target": "~/lab"},
+            {"file": "todo-deployment-volume", "target": "~/lab"},
+            {"file": "todo-nodeport-service.yaml", "target": "~/lab"}
         ]
     }
   },
