@@ -27,6 +27,8 @@ validatingwebhookconfiguration.admissionregistration.k8s.io/ingress-nginx-admiss
 
 > 💻 명령어 `kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.6.4/deploy/static/provider/cloud/deploy.yaml`{{exec}}
 
+<br><br><br>
+
 Nginx ingress controller는 ingress-nginx 네임스페이스에 리소스들이 생성됩니다.  
 설치결과는 아래와 같이 조회 가능합니다.
 ```bash
@@ -53,28 +55,9 @@ job.batch/ingress-nginx-admission-patch    1/1           12s        115s
 
 > 💻 명령어 `kubectl get all -n ingress-nginx`{{exec}}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+<br><br><br>
 
 이제 Ingress 리소스를 아래와 같이 준비합니다.  
-웹 브라우저에서 http://my-nginx.info 와 같이 입력해서 접속해보려고 합니다.
 
 ```yaml
 apiVersion: networking.k8s.io/v1
@@ -84,6 +67,7 @@ metadata:
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /$1
 spec:
+  ingressClassName: nginx
   rules:
     - host: my-nginx.info
       http:
@@ -110,29 +94,21 @@ ingress.networking.k8s.io/my-nginx-ingress created
 
 <br><br><br>
 
-웹 브라우저에서 접속을 하기전에 한 가지 준비할 게 있습니다.
-
-우리가 만든 URL은 DNS에 등록되어 있지 않기 때문에, 접속을 시도해도 어디로 라우팅 되어야하는지 알 수가 없습니다.  
-간단히 우리가 접속을 하려고 하는 환경(PC)의 host파일에 다음과 같이 등록해줍니다.  
-(웹 브라우저는 DNS 이전에 hosts파일을 먼저 참조합니다.)
-
-- Windows라면 **C:\Windows\System32\drivers\etc\hosts** 파일에,
-- Linux계열은 **/etc/hosts** 파일에 추가하면 됩니다.
+다음은 로컬 포트를 Ingress controller로 연결합니다.  
 
 ```bash
-#mspt3
-11.22.33.44  my-nginx.info
+
 ```
-> 11.22.33.44 대신 여러분 EC2 Instance의 **Public IPv4 address**를 써주세요.
 
-<br><br><br>
+> 💻 명령어 `kubectl port-forward --namespace=ingress-nginx service/ingress-nginx-controller 80:80`{{exec}}
 
-자 이제 정말로 모두 준비가 됐습니다.
-웹 브라우저에서 아래 URL로 접속해보세요.
+이제 curl 명령어를 이용해서 연결해볼까요?
 
-http://my-nginx.info
+```bash
 
-![h:300](./img/k8s_nginx_ingress.png)
+```
+
+> 💻 명령어 `curl http://my-nginx.info`{{exec}}
 
 잘 되네요. (ง˙∇˙)ว
 
