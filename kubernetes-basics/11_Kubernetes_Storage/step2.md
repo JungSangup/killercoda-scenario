@@ -77,7 +77,7 @@ Nginx는 (worker) node에서 실행되기 때문에, **node01**의 hostpath(/mnt
 
 🔗 [Nginx]({{TRAFFIC_HOST1_30007}})
 
-![h:200](./img/k8s_nginx_pv.png)
+![h:200](./img/k8s_nginx_pvc.png)
 
 Pod의 파일시스템에도 위의 내용이 반영되어 있는지도 확인해보세요.
 ```bash
