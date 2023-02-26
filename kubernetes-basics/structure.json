@@ -17,7 +17,11 @@
       "title": "09. Kubernetes Workload(2) - ReplicaSet, Deployment",
       "description": "ReplicaSet, Deployment 관리 실습"
     },
-
+    {
+      "path": "10_Kubernetes_Service",
+      "title": "10. Kubernetes Service",
+      "description": "Service 이용 실습"
+    },
     {
       "path": "11_Kubernetes_Storage",
       "title": "11. Kubernetes Storage",
