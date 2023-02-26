@@ -53,8 +53,12 @@ ubuntu@ip-172-31-23-60:~$ kubectl apply -f nginx-pvc.yaml
 persistentvolumeclaim/nginx-pvc created
 ```
 
-> 💻 명령어 `kubectl apply -f nginx-pv.yaml`{{exec}  
-> 💻 명령어 `kubectl apply -f nginx-pvc.yaml`{{exec}
+> 💻 명령어
+> ```bash
+> mkdir /mnt/data  
+> kubectl apply -f nginx-pv.yaml
+> kubectl apply -f nginx-pvc.yaml
+> ```{{exec}}
 
 <br><br><br>
 
@@ -69,7 +73,7 @@ nginx-pvc   Bound    pvc-07b9d09b-af9d-4828-b12b-e59960ec7ae9   3Gi        RWO  
 >또는  
 > 💻 명령어 `kubectl get pvc`{{exec}}
 
-결과를 보니 **VOLUME(pvc-5347efb3-5aaf-437e-ad7d-9be120c190fa)** 도 보이고, STATUS는 **Bound**네요.
+결과를 보니 **VOLUME(nginx-pv)** 도 보이고, STATUS는 **Bound**네요.
 
 <br><br><br>
 
@@ -109,10 +113,9 @@ Source:
     HostPathType:
 Events:            <none>
 ```
-> 💻 명령어 `kubectl describe persistentvolume [PV-NAME]`{{copy}}  
+> 💻 명령어 `kubectl describe persistentvolume nginx-pv`{{exec}}  
 >또는  
-> 💻 명령어 `kubectl describe pv [PV-NAME]`{{copy}}  
-> [PV-NAME] 에는 앞에서 만들어진 PV의 Name을 넣어주세요.
+> 💻 명령어 `kubectl describe pv nginx-pv`{{exec}}
 
 **Source**아래 내용을 보시면 어디에 Volume영역이 할당되었는지 알 수 있습니다.  
 위의 경우는 **HostPath**타입을 이용했고, **/mnt/data**를 Volume의 위치로 사용하고 있습니다.

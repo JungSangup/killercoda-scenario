@@ -52,7 +52,6 @@ service/nginx-nodeport-service created
 >```bash
 >kubectl apply -f nginx-deployment-volume.yaml
 >kubectl apply -f nginx-nodeport-service.yaml
->
 >```{{exec}}
 
 <br><br><br>
@@ -62,7 +61,7 @@ service/nginx-nodeport-service created
 ubuntu@ip-172-31-23-60:~$ echo '<h1>Hello kubernetes</h1>' >> /tmp/hostpath-provisioner/default/nginx-pvc/index.html
 ```
 
-> 💻 명령어 `echo '<h1>Hello kubernetes</h1>' >> /tmp/hostpath-provisioner/default/nginx-pvc/index.html`{{exec}}
+> 💻 명령어 `echo '<h1>Hello kubernetes</h1>' >> /mnt/data/index.html`{{exec}}
 
 <br>
 
