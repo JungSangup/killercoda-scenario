@@ -55,6 +55,8 @@ job.batch/ingress-nginx-admission-patch    1/1           12s        115s
 
 > 💻 명령어 `kubectl get all -n ingress-nginx`{{exec}}
 
+🤔 ingress-nginx-controller pod가 Running이 될 때까지 기다려주세요.
+
 <br><br><br>
 
 이제 Ingress 리소스를 아래와 같이 준비합니다.  
@@ -101,6 +103,14 @@ ingress.networking.k8s.io/my-nginx-ingress created
 ```
 
 > 💻 명령어 `kubectl port-forward --namespace=ingress-nginx service/ingress-nginx-controller 80:80`{{exec}}
+
+마지막으로 한 가지 /etc/hosts 파일에 ingress host를 등록해줍니다.
+
+```bash
+
+```
+
+> 💻 명령어 `echo '127.0.0.1 my-nginx.info' >> /etc/hosts`{{exec}}
 
 이제 curl 명령어를 이용해서 연결해볼까요?
 
