@@ -1,5 +1,6 @@
 {
   "items": [
-    { "path": "docker-basics", "title": "Docker Basics" }
+    { "path": "docker-basics", "title": "Docker Basics" },
+    { "path": "kubernetes-basics", "title": "Kubernetes Basics" }
   ]
 }
