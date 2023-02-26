@@ -66,7 +66,7 @@ ubuntu@ip-172-31-23-60:~$ echo '<h1>Hello kubernetes</h1>' >> /tmp/hostpath-prov
 <br>
 
 Nginx에서 보여줄 간단한 **index.html**파일을 하나 만들었습니다.  
-혹시 PV의 경로가 다르다면 거기에 맞춰서 해주세요.
+Nginx는 (worker) node에서 실행되기 때문에, **node01**의 hostpath(/mnt/data)에 파일(index.html)을 생성했습니다.
 
 * 이 실습은 PVC, PV, Pod의 동작을 살펴보기 위한 것입니다. HostPath유형의 사용상 주의사항은 [hostPath](https://kubernetes.io/ko/docs/concepts/storage/volumes/#hostpath)를 참고하세요.
 
@@ -88,7 +88,7 @@ my-nginx-deployment-7cbbdb88f6-w44q8   1/1     Running   0          116s
 ubuntu@ip-172-31-23-60:~$ kubectl exec -it my-nginx-deployment-7cbbdb88f6-8n59s -- cat /usr/share/nginx/html/index.html
 <h1>Hello kubernetes</h1>
 ```
-> 💻 명령어 `kubectl get pod`{{exec}}
+> 💻 명령어 `kubectl get pod`{{exec}}  
 > 💻 명령어 `kubectl exec -it [POD-NAME] -- cat /usr/share/nginx/html/index.html`{{copy}}
 > [POD-NAME] 에는 앞에서 조회한 POD중 하나의 이름을 넣어주세요.
 
@@ -108,9 +108,8 @@ persistentvolumeclaim "nginx-pvc" deleted
 ```
 > 💻 명령어
 >```bash
->kubectl delete -f nginx-ingress.yaml
->kubectl delete -f nginx-clusterip-service.yaml
+>kubectl delete -f nginx-nodeport-service.yaml
 >kubectl delete -f nginx-deployment-volume.yaml
 >kubectl delete -f nginx-pvc.yaml
->
+>kubectl delete -f nginx-pv.yaml
 >```{{exec}}

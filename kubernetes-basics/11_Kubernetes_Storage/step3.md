@@ -1,9 +1,8 @@
 도커 실습에서 사용한 **ToDo App**을 PVC를 사용해서 데이터를 저장하는 방법입니다.  
 Docker Volumes 실습의 Kubernetes 버젼이라고 보시면 될 것 같아요.
 
-실습에 필요한 파일은 모두 **hands_on_files**아래에 있습니다.  
-아래 참고해서 해보세요.
-> PVC 생성 > Deployment 생성 > Service 생성 > Ingress 생성
+아래 순서대로 생성합니다.
+> PV생성 > PVC 생성 > Deployment 생성 > Service 생성 > Ingress 생성
 
 ```bash
 ubuntu@ip-172-31-23-60:~$ kubectl apply -f todo-pvc.yaml
@@ -17,27 +16,17 @@ ingress.networking.k8s.io/todo-app-ingress created
 ```
 > 💻 명령어
 >```bash
+>kubectl apply -f todo-pv.yaml
 >kubectl apply -f todo-pvc.yaml
 >kubectl apply -f todo-deployment-volume.yaml
->kubectl apply -f todo-clusterip-service.yaml
->kubectl apply -f todo-ingress.yaml
->
->```
+>kubectl apply -f todo-nodeport-service.yaml
+>```{{exec}}
 
 <br><br><br>
 
-ToDo App 접속을 위해서 **hosts**파일에 다음과 같이 하나(***todo-app.info***)를 추가합니다.  
-- Windows라면 **C:\Windows\System32\drivers\etc\hosts** 파일에,
-- Linux계열은 **/etc/hosts** 파일에 추가하면 됩니다.
-```bash
-#mspt3
-11.22.33.44  my-nginx.info todo-app.info
-```
-> 11.22.33.44 대신 여러분 EC2 Instance의 **Public IPv4 address**를 써주세요.
+이제 브라우저에서 어떻게 나오나 볼까요?
 
-이제 브라우저에서 http://todo-app.info/ 로 접속하면, 아래와 같이 접속 가능할거예요.
-
-![h:300](./img/k8s_todo_ingress.png)
+🔗 [Nginx]({{TRAFFIC_HOST1_30008}})
 
 <br><br><br>
 
@@ -58,16 +47,9 @@ todo-app-deployment-55464569cf-7gn5v   1/1     Running   0          8s
 todo-app-deployment-55464569cf-plnfd   1/1     Running   0          8s
 todo-app-deployment-55464569cf-x8l6h   1/1     Running   0          8s
 ```
-> 💻 명령어
->```bash
->kubectl get pod
->```
->```bash
->kubectl delete pod --all
->```
->```bash
->kubectl get pod
->```
+> 💻 명령어 `kubectl get pod`{{exec}}  
+> 💻 명령어 `kubectl delete pod --all`{{exec}}  
+> 💻 명령어 `kubectl get pod`{{exec}}
 
 <br><br><br>
 
@@ -85,11 +67,10 @@ persistentvolumeclaim "todo-pvc" deleted
 ```
 > 💻 명령어
 >```bash
->kubectl delete -f todo-ingress.yaml
->kubectl delete -f todo-clusterip-service.yaml
+>kubectl delete -f todo-nodeport-service.yaml
 >kubectl delete -f todo-deployment-volume.yaml
 >kubectl delete -f todo-pvc.yaml
->
+>kubectl delete -f todo-pv.yaml
 >```
 
 <br>
