@@ -55,7 +55,6 @@ persistentvolumeclaim/nginx-pvc created
 
 > 💻 명령어
 > ```bash
-> mkdir /mnt/data  
 > kubectl apply -f nginx-pv.yaml
 > kubectl apply -f nginx-pvc.yaml
 > ```{{exec}}
