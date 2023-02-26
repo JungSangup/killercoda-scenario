@@ -71,7 +71,7 @@ persistentvolumeclaim "todo-pvc" deleted
 >kubectl delete -f todo-deployment-volume.yaml
 >kubectl delete -f todo-pvc.yaml
 >kubectl delete -f todo-pv.yaml
->```
+>```{{exec}}
 
 <br>
 
