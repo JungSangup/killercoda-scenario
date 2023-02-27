@@ -6,8 +6,8 @@
 실행하는 명령어는 다음과 같습니다.  
 
 ```bash
-$ docker run --detach --publish 3000:3000 docker-101
-4480ffcd6fa67de20f4529cb2ccd3e0b8fba7c63fc036541c7bfd40062db2cb7
+ubuntu $ docker run --detach --publish 3000:3000 docker-101
+9a6d2d4dd82e84ae2bf9e39fe181d703738c6e609d351cd46848026f3006c49e
 ```
 
 > 💻 명령어 `docker run --detach --publish 3000:3000 docker-101`{{exec}}
@@ -15,9 +15,9 @@ $ docker run --detach --publish 3000:3000 docker-101
 그리고, 잘 실행되고 있는지 볼까요?
 
 ```bash
-$ docker ps
+ubuntu $ docker ps
 CONTAINER ID   IMAGE        COMMAND                  CREATED          STATUS          PORTS                                       NAMES
-4480ffcd6fa6   docker-101   "docker-entrypoint.s…"   27 seconds ago   Up 26 seconds   0.0.0.0:3000->3000/tcp, :::3000->3000/tcp   youthful_noether
+9a6d2d4dd82e   docker-101   "docker-entrypoint.s…"   13 seconds ago   Up 12 seconds   0.0.0.0:3000->3000/tcp, :::3000->3000/tcp   nervous_bhabha
 ```
 
 > 💻 명령어 `docker ps`{{exec}}

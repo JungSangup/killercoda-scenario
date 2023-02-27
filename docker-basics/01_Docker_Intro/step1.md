@@ -13,14 +13,14 @@
 먼저 필요한 소스코드를 Github에서 다운로드 합니다.  
 
 ```bash
-$ git clone https://github.com/JungSangup/todo_list_manager.git app
+ubuntu $ git clone https://github.com/JungSangup/todo_list_manager.git app
 Cloning into 'app'...
-remote: Enumerating objects: 54, done.
-remote: Counting objects: 100% (54/54), done.
-remote: Compressing objects: 100% (49/49), done.
-remote: Total 54 (delta 4), reused 54 (delta 4), pack-reused 0
-Receiving objects: 100% (54/54), 1.67 MiB | 4.76 MiB/s, done.
-Resolving deltas: 100% (4/4), done.
+remote: Enumerating objects: 131, done.
+remote: Counting objects: 100% (131/131), done.
+remote: Compressing objects: 100% (123/123), done.
+remote: Total 131 (delta 51), reused 53 (delta 7), pack-reused 0
+Receiving objects: 100% (131/131), 1.68 MiB | 1.22 MiB/s, done.
+Resolving deltas: 100% (51/51), done.
 ```
 
 > 💻 명령어 `git clone https://github.com/JungSangup/todo_list_manager.git app`{{exec}}
@@ -28,17 +28,17 @@ Resolving deltas: 100% (4/4), done.
 소스코드 준비가 됐으면 `app` 디렉토리로 이동해서 어떤 파일들이 있는지 살펴볼까요?
 
 ```bash
-$ cd app
-$ ls -al
+ubuntu $ cd app
+ubuntu $ ls -al
 total 204
-drwxrwxr-x 5 ubuntu ubuntu   4096 Jun 17 02:54 .
-drwxr-x--- 8 ubuntu ubuntu   4096 Jun 17 02:54 ..
-drwxrwxr-x 8 ubuntu ubuntu   4096 Jun 17 02:54 .git
--rw-rw-r-- 1 ubuntu ubuntu    105 Jun 17 02:54 Dockerfile
--rw-rw-r-- 1 ubuntu ubuntu    626 Jun 17 02:54 package.json
-drwxrwxr-x 4 ubuntu ubuntu   4096 Jun 17 02:54 spec
-drwxrwxr-x 5 ubuntu ubuntu   4096 Jun 17 02:54 src
--rw-rw-r-- 1 ubuntu ubuntu 179361 Jun 17 02:54 yarn.lock
+drwxr-xr-x 5 root root   4096 Feb 27 03:04 .
+drwx------ 5 root root   4096 Feb 27 03:04 ..
+drwxr-xr-x 8 root root   4096 Feb 27 03:04 .git
+-rw-r--r-- 1 root root    109 Feb 27 03:04 Dockerfile
+-rw-r--r-- 1 root root    626 Feb 27 03:04 package.json
+drwxr-xr-x 4 root root   4096 Feb 27 03:04 spec
+drwxr-xr-x 5 root root   4096 Feb 27 03:04 src
+-rw-r--r-- 1 root root 179361 Feb 27 03:04 yarn.lock
 ```
 
 > 💻 명령어 `cd app`{{exec}}  
