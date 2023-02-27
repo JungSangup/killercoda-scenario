@@ -1,8 +1,8 @@
 
 이제 실행(**run**)을 해보겠습니다.
 ```bash
-ubuntu@ip-172-31-23-60:~/app$ docker run --interactive --tty --name my-ubuntu1 ubuntu /bin/bash
-root@d68fe3ec9f65:/#
+ubuntu $ docker run --interactive --tty --name my-ubuntu1 ubuntu /bin/bash
+root@324bf2d472bd:/#
 ```
 
 > 💻 명령어 `docker run --interactive --tty --name my-ubuntu1 ubuntu /bin/bash`{{exec}}
@@ -14,7 +14,7 @@ root@d68fe3ec9f65:/#
 
 실행된 ubuntu의 OS 정보를 확인 해볼까요?
 ```bash
-root@5229efb2bd11:/# cat /etc/os-release
+root@324bf2d472bd:/# cat /etc/os-release
 PRETTY_NAME="Ubuntu 22.04.1 LTS"
 NAME="Ubuntu"
 VERSION_ID="22.04"
@@ -37,9 +37,9 @@ UBUNTU_CODENAME=jammy
 
 이제 `exit` 명령어로 컨테이너를 빠져나오겠습니다.
 ```bash
-root@5229efb2bd11:/# exit
+root@324bf2d472bd:/# exit
 exit
-ubuntu@ip-172-31-23-60:~$
+ubuntu $
 ```
 
 > 💻 명령어 `exit`{{exec}}
@@ -51,8 +51,8 @@ ubuntu@ip-172-31-23-60:~$
 
 이번에는 `ubuntu:18.04`를 실행해봅시다.
 ```bash
-ubuntu@ip-172-31-23-60:~/app$ docker run --interactive --tty --name my-ubuntu2 ubuntu:18.04 /bin/bash
-root@cac6c7cab1f9:/#
+ubuntu $ docker run --interactive --tty --name my-ubuntu2 ubuntu:18.04 /bin/bash
+root@9943d07b8ea0:/#
 ```
 
 > 💻 명령어 `docker run --interactive --tty --name my-ubuntu2 ubuntu:18.04 /bin/bash`{{exec}}
@@ -63,7 +63,7 @@ root@cac6c7cab1f9:/#
 
 `cat /etc/os-release`의 결과는 어떻게 나올까요?
 ```bash
-root@69a29fac3bd8:/# cat /etc/os-release
+root@9943d07b8ea0:/# cat /etc/os-release
 NAME="Ubuntu"
 VERSION="18.04.6 LTS (Bionic Beaver)"
 ID=ubuntu
@@ -92,9 +92,9 @@ UBUNTU_CODENAME=bionic
 
 이제 `exit` 명령어로 컨테이너에서 나와주세요.
 ```bash
-root@69a29fac3bd8:/# exit
+root@9943d07b8ea0:/# exit
 exit
-ubuntu@ip-172-31-23-60:~$
+ubuntu $
 ```
 
 > 💻 명령어 `exit`{{exec}}
@@ -103,19 +103,19 @@ ubuntu@ip-172-31-23-60:~$
 
 이번엔 다른 방법(`--detach`)으로 실행해 보겠습니다. (다른 이미지를 사용합니다.)
 ```bash
-ubuntu@ip-172-31-23-60:~/app$ docker run --detach --name my-nginx --publish 8080:80 nginx
+ubuntu $ docker run --detach --name my-nginx --publish 8080:80 nginx
 Unable to find image 'nginx:latest' locally
 latest: Pulling from library/nginx
-bb263680fed1: Pull complete
-258f176fd226: Pull complete
-a0bc35e70773: Pull complete
-077b9569ff86: Pull complete
-3082a16f3b61: Pull complete
-7e9b29976cce: Pull complete
+bb263680fed1: Pull complete 
+258f176fd226: Pull complete 
+a0bc35e70773: Pull complete 
+077b9569ff86: Pull complete 
+3082a16f3b61: Pull complete 
+7e9b29976cce: Pull complete 
 Digest: sha256:6650513efd1d27c1f8a5351cbd33edf85cc7e0d9d0fcb4ffb23d8fa89b601ba8
 Status: Downloaded newer image for nginx:latest
-2fc9e3a49e91f4d8ba07ea2dc80a9ee79260354d97b44486333f6661867f8c26
-ubuntu@ip-172-31-23-60:~/app$
+447360c9b1dcebbd4b6ed7f5e1c3c8d592c9e8a9fd205f24dfc6af4da94fee5a
+ubuntu $
 ```
 
 > 💻 명령어 `docker run --detach --name my-nginx --publish 8080:80 nginx`{{exec}}
@@ -126,11 +126,11 @@ ubuntu@ip-172-31-23-60:~/app$
 
 이제 `docker ps --all` 명령어로 컨테이너 목록을 조회해보세요.
 ```bash
-ubuntu@ip-172-31-23-60:~/app$ docker ps --all
+ubuntu $ docker ps --all
 CONTAINER ID   IMAGE          COMMAND                  CREATED              STATUS                          PORTS                                   NAMES
-2fc9e3a49e91   nginx          "/docker-entrypoint.…"   45 seconds ago       Up 44 seconds                   0.0.0.0:8080->80/tcp, :::8080->80/tcp   my-nginx
-cac6c7cab1f9   ubuntu:18.04   "/bin/bash"              About a minute ago   Exited (0) About a minute ago                                           my-ubuntu2
-d68fe3ec9f65   ubuntu         "/bin/bash"              2 minutes ago        Exited (0) About a minute ago                                           my-ubuntu1
+447360c9b1dc   nginx          "/docker-entrypoint.…"   21 seconds ago       Up 20 seconds                   0.0.0.0:8080->80/tcp, :::8080->80/tcp   my-nginx
+9943d07b8ea0   ubuntu:18.04   "/bin/bash"              About a minute ago   Exited (0) 49 seconds ago                                               my-ubuntu2
+324bf2d472bd   ubuntu         "/bin/bash"              2 minutes ago        Exited (0) About a minute ago                                           my-ubuntu1
 ```
 
 > 💻 명령어 `docker ps --all`{{exec}}
@@ -150,8 +150,8 @@ nginx가 정말 Running 상태인지 8080번 포트로 접속해서 확인도 �
 
 이번엔 `docker stop` 명령어로 nginx 컨테이너를 멈춰봅시다.
 ```bash
-ubuntu@ip-172-31-23-60:~/app$ docker stop $(docker ps --filter "name=my-nginx" --quiet)
-2fc9e3a49e91
+ubuntu $ docker stop $(docker ps --filter "name=my-nginx" --quiet)
+447360c9b1dc
 ```
 
 > 💻 명령어 `docker stop $(docker ps --filter "name=my-nginx" --quiet)`{{exec}}
@@ -160,11 +160,11 @@ ubuntu@ip-172-31-23-60:~/app$ docker stop $(docker ps --filter "name=my-nginx" -
 
 `docker ps --all`로 상태도 확인해보시고, 8080번 포트로 접속이 되는지 확인도 해보세요.
 ```bash
-ubuntu@ip-172-31-23-60:~/app$ docker ps --all
-CONTAINER ID   IMAGE          COMMAND                  CREATED              STATUS                          PORTS     NAMES
-2fc9e3a49e91   nginx          "/docker-entrypoint.…"   About a minute ago   Exited (0) 18 seconds ago                 my-nginx
-cac6c7cab1f9   ubuntu:18.04   "/bin/bash"              2 minutes ago        Exited (0) About a minute ago             my-ubuntu2
-d68fe3ec9f65   ubuntu         "/bin/bash"              3 minutes ago        Exited (0) 2 minutes ago                  my-ubuntu1
+ubuntu $ docker ps --all
+CONTAINER ID   IMAGE          COMMAND                  CREATED              STATUS                          PORTS                                   NAMES
+447360c9b1dc   nginx          "/docker-entrypoint.…"   About a minute ago   Exited (0) 18 seconds ago                 my-nginx
+9943d07b8ea0   ubuntu:18.04   "/bin/bash"              About a minute ago   Exited (0) 49 seconds ago                                               my-ubuntu2
+324bf2d472bd   ubuntu         "/bin/bash"              2 minutes ago        Exited (0) About a minute ago                                           my-ubuntu1
 ```
 
 > 💻 명령어 `docker ps --all`{{exec}}
