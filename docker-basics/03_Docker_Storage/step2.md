@@ -7,7 +7,7 @@
 
 먼저 도커 볼륨을 하나 생성합니다.
 ```bash
-ubuntu@ip-172-31-23-60:~$ docker volume create todo-db
+ubuntu $ docker volume create todo-db
 todo-db
 ```
 
@@ -15,7 +15,7 @@ todo-db
 
 생성된 볼륨을 확인하려면 아래 명령어를 사용하면 됩니다.
 ```bash
-ubuntu@ip-172-31-23-60:~$ docker volume list
+ubuntu $ docker volume list
 DRIVER    VOLUME NAME
 local     todo-db
 ```
@@ -28,10 +28,10 @@ local     todo-db
 
 그리고, 볼륨의 더 자세한 정보를 알아보려면 아래 명령어를 사용하면 됩니다.
 ```bash
-ubuntu@ip-172-31-23-60:~$ docker volume inspect todo-db
+ubuntu $ docker volume inspect todo-db
 [
     {
-        "CreatedAt": "2023-02-12T05:10:45Z",
+        "CreatedAt": "2023-02-27T14:59:44Z",
         "Driver": "local",
         "Labels": {},
         "Mountpoint": "/var/lib/docker/volumes/todo-db/_data",
@@ -51,8 +51,19 @@ ubuntu@ip-172-31-23-60:~$ docker volume inspect todo-db
 이제 방금 생성한 볼륨을 우리 애플리케이션의 데이터 저장경로로 마운트해서 실행해 보겠습니다.  
 - Private repository의 이미지를 사용할 경우 로그인(`docker login -u [USER-NAME]`)이 필요합니다.
 ```bash
-ubuntu@ip-172-31-23-60:~$ docker run --detach --publish 3000:3000 --volume todo-db:/etc/todos --name my-todo-manager rogallo/todo-app:1.0.0
-9649bfa4eea279378bd7ddd21804ffc0028adb873759b7efa83053ca1627dc9f
+ubuntu $ docker run --detach --publish 3000:3000 --volume todo-db:/etc/todos --name my-todo-manager rogallo/todo-app:1.0.0
+Unable to find image 'rogallo/todo-app:1.0.0' locally
+1.0.0: Pulling from rogallo/todo-app
+ddad3d7c1e96: Pull complete 
+de915e575d22: Pull complete 
+7150aa69525b: Pull complete 
+d7aa47be044e: Pull complete 
+aeb9ad382500: Pull complete 
+48e2644522da: Pull complete 
+8e2fea53823f: Pull complete 
+Digest: sha256:bb2e9e4764b2390406e83802cfe8d7356fb19928e8e42f16a0aff1a51ea0e3a0
+Status: Downloaded newer image for rogallo/todo-app:1.0.0
+ee92654b9dcc4bb64907841cda51c8065bc532635f20cabe2381190e0735c8f8
 ```
 
 > 💻 명령어 `docker run --detach --publish 3000:3000 --volume todo-db:/etc/todos --name my-todo-manager [USER-NAME]/todo-app:1.0.0`{{copy}}  
@@ -74,9 +85,9 @@ ubuntu@ip-172-31-23-60:~$ docker run --detach --publish 3000:3000 --volume todo-
 
 그리고, 컨테이너를 멈추고 삭제합니다.
 ```bash
-ubuntu@ip-172-31-23-60:~$ docker stop my-todo-manager
+ubuntu $ docker stop my-todo-manager
 my-todo-manager
-ubuntu@ip-172-31-23-60:~$ docker rm my-todo-manager
+ubuntu $ docker rm my-todo-manager
 my-todo-manager
 ```
 
@@ -90,8 +101,8 @@ my-todo-manager
 
 이제 다시한번 같은 명령어로 우리 애플리케이션을 실행해 볼까요?
 ```bash
-ubuntu@ip-172-31-23-60:~$ docker run --detach --publish 3000:3000 --volume todo-db:/etc/todos --name my-todo-manager rogallo/todo-app:1.0.0
-c6859ec898566de2e194acd1dd7b1df8832fe035e7e1179deb21c587e66502c9
+ubuntu $ docker run --detach --publish 3000:3000 --volume todo-db:/etc/todos --name my-todo-manager rogallo/todo-app:1.0.0
+fb0d51d1fe618e28d11db8d1ed139523d1eab42a1f1f0de903e04e8a52cabaa8
 ```
 
 > 💻 명령어 `docker run --detach --publish 3000:3000 --volume todo-db:/etc/todos --name my-todo-manager [USER-NAME]/todo-app:1.0.0`{{copy}}  
@@ -110,9 +121,9 @@ c6859ec898566de2e194acd1dd7b1df8832fe035e7e1179deb21c587e66502c9
 
 마찬가지로 정리하고 마칠게요.
 ```bash
-ubuntu@ip-172-31-23-60:~$ docker rm -f my-todo-manager
+ubuntu $ docker rm -f my-todo-manager
 my-todo-manager
-ubuntu@ip-172-31-23-60:~$ docker volume rm todo-db
+ubuntu $ docker volume rm todo-db
 todo-db
 ```
 

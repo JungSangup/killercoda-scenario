@@ -4,8 +4,13 @@
 직접 한번 컨테이너를 생성해서 볼까요?  
 먼저 ubuntu 컨테이너를 하나 실행합니다.
 ```bash
-ubuntu@ip-172-31-23-60:~$ docker run --name my-ubuntu1 --detach ubuntu bash -c "echo 'Hello Docker...' > /test.txt && tail -f /dev/null"
-69a984336a12e4d186399730f1ff3f51300caf95ea9d70a59a235c334da26ea2
+ubuntu $ docker run --name my-ubuntu1 --detach ubuntu bash -c "echo 'Hello Docker...' > /test.txt && tail -f /dev/null"
+Unable to find image 'ubuntu:latest' locally
+latest: Pulling from library/ubuntu
+677076032cca: Pull complete 
+Digest: sha256:9a0bdde4188b896a372804be2384015e90e3f84906b750c1a53539b585fbbe7f
+Status: Downloaded newer image for ubuntu:latest
+aa6e76a0bd72f47934ddc3d182a50de557388cbbc52f90eda0cf4b1493e0e118
 ```
 
 > 💻 명령어 `docker run --name my-ubuntu1 --detach ubuntu bash -c "echo 'Hello Docker...' > /test.txt && tail -f /dev/null"`{{exec}}
@@ -16,7 +21,7 @@ ubuntu@ip-172-31-23-60:~$ docker run --name my-ubuntu1 --detach ubuntu bash -c "
 
 이제 우리가 만든 파일을 한 번 볼까요?
 ```bash
-ubuntu@ip-172-31-23-60:~$ docker exec my-ubuntu1 cat /test.txt
+ubuntu $ docker exec my-ubuntu1 cat /test.txt
 Hello Docker...
 ```
 
@@ -31,9 +36,9 @@ Hello Docker...
 
 이제 같은 ubuntu이미지를 이용해서 새로운 컨테이너를 실행하고, test.txt파일이 있나 살펴봅시다.
 ```bash
-ubuntu@ip-172-31-23-60:~$ docker run -it --name my-ubuntu2 ubuntu ls /
-bin   dev  home  lib32	libx32	mnt  proc  run	 srv  tmp  var
-boot  etc  lib	 lib64	media	opt  root  sbin  sys  usr
+ubuntu $ docker run -it --name my-ubuntu2 ubuntu ls /
+bin   dev  home  lib32  libx32  mnt  proc  run   srv  tmp  var
+boot  etc  lib   lib64  media   opt  root  sbin  sys  usr
 ```
 
 > 💻 명령어 `docker run -it --name my-ubuntu2 ubuntu ls /`{{exec}}
@@ -46,9 +51,9 @@ boot  etc  lib	 lib64	media	opt  root  sbin  sys  usr
 아래 명령어를 실행해주세요.
 
 ```bash
-ubuntu@ip-172-31-23-60:~$ docker rm -f $(docker ps -a -f "name=my-ubuntu1" -f "name=my-ubuntu2" -q)
-06388b0ee44f
-69a984336a12
+ubuntu $ docker rm -f $(docker ps -a -f "name=my-ubuntu1" -f "name=my-ubuntu2" -q)
+807cb3057fbe
+aa6e76a0bd72
 ```
 
 > 💻 명령어 `docker rm -f $(docker ps -a -f "name=my-ubuntu1" -f "name=my-ubuntu2" -q)`{{exec}}
