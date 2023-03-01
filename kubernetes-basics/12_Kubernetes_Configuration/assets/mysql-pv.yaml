@@ -1,11 +1,14 @@
 apiVersion: v1
-kind: PersistentVolumeClaim
+kind: PersistentVolume
 metadata:
-  name: mysql-pvc
+  name: mysql-pv
+  labels:
+    type: local
 spec:
-  storageClassName: standard
+  storageClassName: manual
+  capacity:
+    storage: 3Gi
   accessModes:
     - ReadWriteOnce
-  resources:
-    requests:
-      storage: 3Gi
+  hostPath:
+    path: "/mnt/data/mysql"

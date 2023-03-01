@@ -70,20 +70,38 @@ data:
 password("c2VjcmV0")는 "secret"을 base64 encoding한 것입니다.  
 base64 encoding 은 아래처럼 하면 됩니다.
 ```bash
-ubuntu@ip-172-31-23-60:~$ echo -n 'secret' | base64
+controlplane $ echo -n 'secret' | base64
 c2VjcmV0
 ```
 
 <br><br><br>
 
-ConfigMap과 Secret을 위한 파일들이 준비됐으면, 다음은 pvc를 위한 파일도 하나 준비해주세요.
+ConfigMap과 Secret을 위한 파일들이 준비됐으면, 다음은 pv와 pvc를 위한 파일도 하나 준비해주세요.
+```yaml
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mysql-pv
+  labels:
+    type: local
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 3Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mnt/data/mysql"
+```
+> 파일명은 **mysql-pv.yaml**로 합니다.
+
 ```yaml
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: mysql-pvc
 spec:
-  storageClassName: standard
+  storageClassName: manual
   accessModes:
     - ReadWriteOnce
   resources:
@@ -166,7 +184,7 @@ spec:
 <br><br><br>
 
 이제 하나씩 생성해줍니다.  
-모두 다섯 개의 리소스를 생성합니다.
+모두 여섯 개의 리소스를 생성합니다.
 ```bash
 ubuntu@ip-172-31-23-60:~$ kubectl apply -f mysql-configmap.yaml
 configmap/mysql-config created
@@ -183,11 +201,11 @@ deployment.apps/todo-mysql-deployment created
 >```bash
 >kubectl apply -f mysql-configmap.yaml
 >kubectl apply -f mysql-secret.yaml
+>kubectl apply -f mysql-pv.yaml
 >kubectl apply -f mysql-pvc.yaml
 >kubectl apply -f mysql-clusterip-service.yaml
 >kubectl apply -f mysql-deployment.yaml
->
->```
+>```{{exec}}
 
 <br><br><br>
 
@@ -218,13 +236,8 @@ BinaryData
 Events:  <none>
 ```
 
-> 💻 명령어
->```bash
->kubectl get configmaps
->```
->```bash
->kubectl describe configmaps mysql-config
->```
+> 💻 명령어 `kubectl get configmaps`{{exec}}  
+> 💻 명령어 `kubectl describe configmaps mysql-config`{{exec}}  
 
 lang(C.UTF-8)과 database(todos)두 개의 데이터가 보입니다.
 
@@ -248,13 +261,9 @@ Data
 ====
 password:  6 bytes
 ```
-> 💻 명령어
->```bash
->kubectl get secrets
->```
->```bash
->kubectl describe secrets mysql-secret
->```
+
+> 💻 명령어 `kubectl get secrets`{{exec}}  
+> 💻 명령어 `kubectl describe secrets mysql-secret`{{exec}}
 
 Secret의 Data는 값이 보이지는 않네요.
 Secret이니까요. -_-
@@ -331,14 +340,9 @@ Events:
   Normal  Started    3m15s  kubelet            Started container todo-mysql-pod
 ```
 
-> 💻 명령어
->```bash
->kubectl get pod
->```
->```bash
->kubectl describe pod [POD-NAME]
->```
-- [POD-NAME] 에는 MySQL POD의 이름을 넣어주세요.
+> 💻 명령어 `kubectl get pod`{{exec}}  
+> 💻 명령어 `kubectl describe pod [POD-NAME]`{{copy}}
+> - [POD-NAME] 에는 MySQL POD의 이름을 넣어주세요.
 
 <br><br><br>
 
@@ -450,9 +454,6 @@ spec:
 
 <br>
 
-파일이 좀 길죠?  
-교재 **hands_on_files**디렉토리에 [todo-all.yaml](https://raw.githubusercontent.com/JungSangup/mspt3/main/hands_on_files/todo-all.yaml)이라는 이름으로 미리 만들어 놓았으니, 그걸 사용하셔도 됩니다.
-
 > 하나의 yaml파일 안에 여러개의 K8s [Manifest](https://kubernetes.io/docs/reference/glossary/?fundamental=true#term-manifest)를 정의할때는, `---`를 구분자로 해서 여러개를 담으면 됩니다.
 
 <br><br><br>
@@ -468,10 +469,7 @@ ubuntu@ip-172-31-23-60:~$ kubectl create secret docker-registry regcred --docker
 secret/regcred created
 ```
 
-> 💻 명령어
->```bash
->kubectl create secret docker-registry regcred --docker-server=https://index.docker.io/v1/ --docker-username=[USER-NAME] --docker-password=[PASSWORD]
->```
+> 💻 명령어 `kubectl create secret docker-registry regcred --docker-server=https://index.docker.io/v1/ --docker-username=[USER-NAME] --docker-password=[PASSWORD]`{{copy}}  
 > [USER-NAME]과 [PASSWORD]는 여러분의 정보로 채워넣어 주세요.
 
 이것도 많이 쓰이는 Secret의 용도 중 하나입니다.  
@@ -489,10 +487,8 @@ Data
 ====
 .dockerconfigjson:  114 bytes
 ```
-> 💻 명령어
->```bash
->kubectl describe secrets regcred
->```
+
+> 💻 명령어 `kubectl describe secrets regcred`{{exec}}
 
 <br><br><br>
 
@@ -507,28 +503,16 @@ deployment.apps/todo-app-deployment created
 ingress.networking.k8s.io/todo-app-ingress created
 ```
 
-> 💻 명령어
->```bash
->kubectl apply -f todo-all.yaml
->```
+> 💻 명령어 `kubectl apply -f todo-all.yaml`{{exec}}
 
 <br><br><br>
 
 앞서 MySQL에서 한 것과 비슷하게 ConfigMap, Secret, Pod도 확인해보세요.  
 명령어만 알려드릴게요.
-> 💻 명령어
->```bash
->kubectl describe configmaps todo-config
->```
->```bash
->kubectl describe secrets todo-secret
->```
->```bash
->kubectl get pods
->```
->```bash
->kubectl describe pod [POD-NAME]
->```
+> 💻 명령어 `kubectl describe configmaps todo-config`{{exec}}  
+> 💻 명령어 `kubectl describe secrets todo-secret`{{exec}}  
+> 💻 명령어 `kubectl get pods`{{exec}}  
+> 💻 명령어 `kubectl describe pod [POD-NAME]`{{copy}}  
 > [POD-NAME] 에는 ToDo App POD중 하나의 이름을 넣어주세요.
 
 <br><br><br>
@@ -570,19 +554,16 @@ YARN_VERSION=1.22.5
 HOME=/root
 ```
 
-> 💻 명령어
->```bash
->kubectl exec -it [POD-NAME] -- env
->```
+> 💻 명령어 `kubectl exec -it [POD-NAME] -- env`{{copy}}  
 > [POD-NAME] 에는 ToDo App POD중 하나의 이름을 넣어주세요.
 
 - [kubectl exec](https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#exec) 명령어의 사용방법은 [동작중인 컨테이너의 셸에 접근하기](https://kubernetes.io/ko/docs/tasks/debug/debug-application/get-shell-running-container/)를 참고하세요.
 
 <br><br><br>
 
-브라우저에서 http://todo-app.info/ 로 접속해서 테스트도 해보시구요.
+이제 브라우저에서 어떻게 나오나 볼까요?
 
-![h:400](./img/k8s_todo_ingress.png)
+🔗 [ToDo List Manager]({{TRAFFIC_HOST1_30007}})
 
 <br><br><br>
 
@@ -618,10 +599,7 @@ mysql> exit;
 Bye
 ```
 
-> 💻 명령어
->```bash
->kubectl exec -it [POD-NAME] -- mysql -p todos
->```
+> 💻 명령어 `kubectl exec -it [POD-NAME] -- mysql -p todos`{{copy}}  
 > [POD-NAME] 에는 MySQL POD의 이름을 넣어주세요.
 
 <br><br><br>
@@ -653,11 +631,11 @@ configmap "mysql-config" deleted
 >kubectl delete secret regcred
 >kubectl delete -f mysql-deployment.yaml
 >kubectl delete -f mysql-clusterip-service.yaml
+>kubectl delete -f mysql-pv.yaml
 >kubectl delete -f mysql-pvc.yaml
 >kubectl delete -f mysql-secret.yaml
 >kubectl delete -f mysql-configmap.yaml
->
->```
+>```{{exec}}
 
 <br>
 
