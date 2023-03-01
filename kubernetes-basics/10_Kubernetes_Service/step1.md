@@ -33,13 +33,14 @@ spec:
 그리고, 아래와 같이 생성한 다음, 생성된 Pod을 조회합니다.
 
 ```bash
-ubuntu@ip-172-31-23-60:~$ kubectl apply -f nginx-deployment.yaml
+controlplane $ kubectl apply -f nginx-deployment.yaml
 deployment.apps/my-nginx-deployment created
-ubuntu@ip-172-31-23-60:~$ kubectl get pods -o wide
-NAME                                   READY   STATUS    RESTARTS   AGE   IP           NODE              NOMINATED NODE   READINESS GATES
-my-nginx-deployment-55985c7fcf-5qlnp   1/1     Running   0          11s   172.17.0.8   ip-172-31-23-60   <none>           <none>
-my-nginx-deployment-55985c7fcf-j96q4   1/1     Running   0          11s   172.17.0.3   ip-172-31-23-60   <none>           <none>
-my-nginx-deployment-55985c7fcf-n6lg6   1/1     Running   0          11s   172.17.0.2   ip-172-31-23-60   <none>           <none>
+controlplane $ kubectl get pods -o wide
+NAME                                  READY   STATUS    RESTARTS   AGE   IP            NODE     NOMINATED NODE   READINESS GATES
+curlpod                               1/1     Running   0          40s   192.168.1.6   node01   <none>           <none>
+my-nginx-deployment-bcc6f6ccb-tkh4s   1/1     Running   0          62s   192.168.1.5   node01   <none>           <none>
+my-nginx-deployment-bcc6f6ccb-zdk45   1/1     Running   0          62s   192.168.1.4   node01   <none>           <none>
+my-nginx-deployment-bcc6f6ccb-zlhnn   1/1     Running   0          62s   192.168.1.3   node01   <none>           <none>
 ```
 
 > 💻 명령어 `kubectl apply -f nginx-deployment.yaml`{{exec}}  
@@ -49,7 +50,7 @@ my-nginx-deployment-55985c7fcf-n6lg6   1/1     Running   0          11s   172.17
 
 이제 위에서 생성한 Pod들을 사용하는 또다른 Pod를 하나 만들겠습니다.
 ```bash
-ubuntu@ip-172-31-23-60:~$ kubectl run curlpod --image=radial/busyboxplus:curl --command -- /bin/sh -c "while true; do echo hi; sleep 10; done"
+controlplane $ kubectl run curlpod --image=radial/busyboxplus:curl --command -- /bin/sh -c "while true; do echo hi; sleep 10; done"
 pod/curlpod created
 ```
 
@@ -59,7 +60,7 @@ pod/curlpod created
 
 그리고,앞에서 만들어진 Nginx Pod의 IP를 이용해서 접속해보겠습니다.
 ```bash
-ubuntu@ip-172-31-23-60:~$ kubectl exec -it curlpod -- curl http://172.17.0.2
+controlplane $ kubectl exec -it curlpod -- curl http://192.168.1.5
 <!DOCTYPE html>
 <html>
 <head>
@@ -124,7 +125,7 @@ spec:
 그리고, 생성합니다.
 
 ```bash
-ubuntu@ip-172-31-23-60:~$ kubectl apply -f nginx-clusterip-service.yaml
+controlplane $ kubectl apply -f nginx-clusterip-service.yaml
 service/nginx-clusterip-service created
 ```
 
@@ -134,10 +135,10 @@ service/nginx-clusterip-service created
 
 생성된걸 조회할 때는 아래와 같이 합니다.
 ```
-ubuntu@ip-172-31-23-60:~$ kubectl get services
-NAME                      TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)   AGE
-kubernetes                ClusterIP   10.96.0.1      <none>        443/TCP   4d11h
-nginx-clusterip-service   ClusterIP   10.99.203.15   <none>        80/TCP    25s
+controlplane $ kubectl get services
+NAME                      TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)   AGE
+kubernetes                ClusterIP   10.96.0.1       <none>        443/TCP   5d15h
+nginx-clusterip-service   ClusterIP   10.111.79.148   <none>        80/TCP    81s
 ```
 
 > 💻 명령어 `kubectl get services`{{exec}}
@@ -149,7 +150,7 @@ nginx-clusterip-service   ClusterIP   10.99.203.15   <none>        80/TCP    25s
 생성된 Service에는 **CLUSTER-IP**가 있습니다.  
 이 아이피로 Pod까지 접근할 수도 있습니다.
 ```bash
-ubuntu@ip-172-31-23-60:~$ kubectl exec -it curlpod -- curl http://10.99.203.15
+controlplane $ kubectl exec -it curlpod -- curl http://10.111.79.148
 <!DOCTYPE html>
 <html>
 <head>
@@ -185,7 +186,7 @@ Commercial support is available at
 **IP**가 아닌 **Name**으로도 가능합니다.  
 이렇게요.
 ```bash
-ubuntu@ip-172-31-23-60:~$ kubectl exec -it curlpod -- curl nginx-clusterip-service
+controlplane $ kubectl exec -it curlpod -- curl nginx-clusterip-service
 <!DOCTYPE html>
 <html>
 <head>
@@ -227,9 +228,9 @@ K8s DNS에는 `<service-name>.<namespace-name>.svc.cluster.local`로 등록이 �
 `<service-name>`만으로 조회가 되는 이유는 [/etc/resolv.conf](https://man7.org/linux/man-pages/man5/resolv.conf.5.html)에 **search 옵션**이 자동으로 주어지기 때문입니다.  
 이렇게 확인도 가능합니다.
 ```bash
-ubuntu@ip-172-31-23-60:~$ kubectl exec -it curlpod -- cat /etc/resolv.conf
+controlplane $ kubectl exec -it curlpod -- cat /etc/resolv.conf
+search default.svc.cluster.local svc.cluster.local cluster.local
 nameserver 10.96.0.10
-search default.svc.cluster.local svc.cluster.local cluster.local ec2.internal
 options ndots:5
 ```
 
@@ -263,14 +264,14 @@ spec:
 
 그리고, 생성하고 조회까지 해볼게요.
 ```bash
-ubuntu@ip-172-31-23-60:~$ kubectl apply -f nginx-nodeport-service.yaml
+controlplane $ kubectl apply -f nginx-nodeport-service.yaml
 service/nginx-nodeport-service created
 
-ubuntu@ip-172-31-23-60:~$ kubectl get services
+controlplane $ kubectl get services
 NAME                      TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)        AGE
-kubernetes                ClusterIP   10.96.0.1       <none>        443/TCP        4d11h
-nginx-clusterip-service   ClusterIP   10.99.203.15    <none>        80/TCP         11m
-nginx-nodeport-service    NodePort    10.102.90.119   <none>        80:30007/TCP   7s
+kubernetes                ClusterIP   10.96.0.1       <none>        443/TCP        5d15h
+nginx-clusterip-service   ClusterIP   10.111.79.148   <none>        80/TCP         3m34s
+nginx-nodeport-service    NodePort    10.109.50.9     <none>        80:30007/TCP   1s
 ```
 
 > 💻 명령어 `kubectl apply -f nginx-nodeport-service.yaml`{{exec}}  

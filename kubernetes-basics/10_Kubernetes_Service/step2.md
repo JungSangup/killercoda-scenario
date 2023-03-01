@@ -32,25 +32,25 @@ validatingwebhookconfiguration.admissionregistration.k8s.io/ingress-nginx-admiss
 Nginx ingress controller는 ingress-nginx 네임스페이스에 리소스들이 생성됩니다.  
 설치결과는 아래와 같이 조회 가능합니다.
 ```bash
-controlplane $ kubectl get all -n ingress-nginx 
+controlplane $ kubectl get all -n ingress-nginx
 NAME                                           READY   STATUS      RESTARTS   AGE
-pod/ingress-nginx-admission-create-vfvns       0/1     Completed   0          115s
-pod/ingress-nginx-admission-patch-r8bgs        0/1     Completed   0          115s
-pod/ingress-nginx-controller-c69664497-2hxlp   1/1     Running     0          115s
+pod/ingress-nginx-admission-create-ff2jz       0/1     Completed   0          31s
+pod/ingress-nginx-admission-patch-vhndh        0/1     Completed   0          31s
+pod/ingress-nginx-controller-c69664497-lm8pf   1/1     Running     0          31s
 
-NAME                                         TYPE           CLUSTER-IP     EXTERNAL-IP   PORT(S)                      AGE
-service/ingress-nginx-controller             LoadBalancer   10.98.196.58   <pending>     80:30076/TCP,443:31992/TCP   116s
-service/ingress-nginx-controller-admission   ClusterIP      10.96.243.97   <none>        443/TCP                      116s
+NAME                                         TYPE           CLUSTER-IP      EXTERNAL-IP   PORT(S)                      AGE
+service/ingress-nginx-controller             LoadBalancer   10.111.178.97   <pending>     80:30387/TCP,443:32420/TCP   32s
+service/ingress-nginx-controller-admission   ClusterIP      10.107.66.200   <none>        443/TCP                      32s
 
 NAME                                       READY   UP-TO-DATE   AVAILABLE   AGE
-deployment.apps/ingress-nginx-controller   1/1     1            1           116s
+deployment.apps/ingress-nginx-controller   1/1     1            1           32s
 
 NAME                                                 DESIRED   CURRENT   READY   AGE
-replicaset.apps/ingress-nginx-controller-c69664497   1         1         1       115s
+replicaset.apps/ingress-nginx-controller-c69664497   1         1         1       31s
 
 NAME                                       COMPLETIONS   DURATION   AGE
-job.batch/ingress-nginx-admission-create   1/1           12s        116s
-job.batch/ingress-nginx-admission-patch    1/1           12s        115s
+job.batch/ingress-nginx-admission-create   1/1           5s         31s
+job.batch/ingress-nginx-admission-patch    1/1           5s         31s
 ```
 
 > 💻 명령어 `kubectl get all -n ingress-nginx`{{exec}}
@@ -88,7 +88,7 @@ spec:
 
 이제 Ingress 리소스를 생성합니다.
 ```bash
-ubuntu@ip-172-31-23-60:~$ kubectl apply -f nginx-ingress.yaml
+controlplane $ kubectl apply -f nginx-ingress.yaml
 ingress.networking.k8s.io/my-nginx-ingress created
 ```
 
@@ -102,9 +102,6 @@ ingress.networking.k8s.io/my-nginx-ingress created
 controlplane $ kubectl port-forward --namespace=ingress-nginx service/ingress-nginx-controller 80:80
 Forwarding from 127.0.0.1:80 -> 80
 Forwarding from [::1]:80 -> 80
-Handling connection for 80
-Handling connection for 80
-Handling connection for 80
 ```
 
 > 💻 명령어 `kubectl port-forward --namespace=ingress-nginx service/ingress-nginx-controller 80:80`{{exec}}
