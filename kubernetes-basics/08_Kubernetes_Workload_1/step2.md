@@ -32,7 +32,7 @@ spec:
 
 그리고, 아래 명령어를 이용해서 Pod를 생성합니다.
 ```bash
-ubuntu@ip-172-31-23-60:~$ kubectl apply -f livenessProbe-httpGet.yaml
+controlplane $ kubectl apply -f livenessProbe-httpGet.yaml
 pod/liveness-http created
 ```
 
@@ -42,12 +42,12 @@ pod/liveness-http created
 
 어느정도(10초이상) 시간이 지난 후 조회를 해보면 아래와 같이 보일거예요.
 ```bash
-ubuntu@ip-172-31-23-60:~$ kubectl get pods -o wide
-NAME            READY   STATUS    RESTARTS     AGE     IP           NODE              NOMINATED NODE   READINESS GATES
-liveness-http   1/1     Running   1 (6s ago)   24s     172.17.0.9   ip-172-31-23-60   <none>           <none>
-my-nginx1       1/1     Running   0            19m     172.17.0.2   ip-172-31-23-60   <none>           <none>
-my-nginx2       1/1     Running   0            10m     172.17.0.3   ip-172-31-23-60   <none>           <none>
-my-nginx3       1/1     Running   0            6m25s   172.17.0.8   ip-172-31-23-60   <none>           <none>
+controlplane $ kubectl get pods -o wide
+NAME            READY   STATUS    RESTARTS     AGE     IP            NODE     NOMINATED NODE   READINESS GATES
+liveness-http   1/1     Running   1 (7s ago)   25s     192.168.1.6   node01   <none>           <none>
+my-nginx1       1/1     Running   0            2m33s   192.168.1.3   node01   <none>           <none>
+my-nginx2       1/1     Running   0            91s     192.168.1.4   node01   <none>           <none>
+my-nginx3       1/1     Running   0            54s     192.168.1.5   node01   <none>           <none>
 ```
 
 > 💻 명령어 `kubectl get pods -o wide`{{exec}}

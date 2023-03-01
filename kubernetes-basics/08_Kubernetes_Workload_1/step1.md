@@ -6,7 +6,7 @@
 Pod를 직접 동작시키는 방법입니다.
 
 ```bash
-ubuntu@ip-172-31-23-60:~$ kubectl run my-nginx1 --image=nginx:1.19.3
+controlplane $ kubectl run my-nginx1 --image=nginx:1.19.3
 pod/my-nginx1 created
 ```
 
@@ -16,9 +16,9 @@ pod/my-nginx1 created
 
 생성된 Pod를 볼까요?
 ```bash
-ubuntu@ip-172-31-23-60:~$ kubectl get pods -o wide
-NAME        READY   STATUS    RESTARTS   AGE   IP           NODE              NOMINATED NODE   READINESS GATES
-my-nginx1   1/1     Running   0          53s   172.17.0.2   ip-172-31-23-60   <none>           <none>
+controlplane $ kubectl get pods -o wide
+NAME        READY   STATUS    RESTARTS   AGE   IP            NODE     NOMINATED NODE   READINESS GATES
+my-nginx1   1/1     Running   0          38s   192.168.1.3   node01   <none>           <none>
 ```
 
 > 💻 명령어 `kubectl get pods -o wide`{{exec}}
@@ -52,7 +52,7 @@ spec:
 
 그리고, 아래와 같이 Pod를 생성합니다.
 ```bash
-ubuntu@ip-172-31-23-60:~$ kubectl create -f nginx2-pod.yaml
+controlplane $ kubectl create -f nginx2-pod.yaml
 pod/my-nginx2 created
 ```
 
@@ -63,10 +63,10 @@ pod/my-nginx2 created
 생성된 Pod를 볼까요?
 
 ```bash
-ubuntu@ip-172-31-23-60:~$ kubectl get pods -o wide
-NAME        READY   STATUS    RESTARTS   AGE     IP           NODE              NOMINATED NODE   READINESS GATES
-my-nginx1   1/1     Running   0          11m     172.17.0.2   ip-172-31-23-60   <none>           <none>
-my-nginx2   1/1     Running   0          2m14s   172.17.0.3   ip-172-31-23-60   <none>           <none>
+controlplane $ kubectl get pods -o wide
+NAME        READY   STATUS    RESTARTS   AGE   IP            NODE     NOMINATED NODE   READINESS GATES
+my-nginx1   1/1     Running   0          74s   192.168.1.3   node01   <none>           <none>
+my-nginx2   1/1     Running   0          12s   192.168.1.4   node01   <none>           <none>
 ```
 
 > 💻 명령어 `kubectl get pods -o wide`{{exec}}
@@ -103,7 +103,7 @@ nginx2-pod.yaml과 동일하고 name만 다르게 작성했습니다.
 
 그리고, 아래 명령어로 Pod를 생성해보겠습니다.
 ```bash
-ubuntu@ip-172-31-23-60:~$ kubectl apply -f nginx3-pod.yaml
+controlplane $ kubectl apply -f nginx3-pod.yaml
 pod/my-nginx3 created
 ```
 
@@ -114,11 +114,11 @@ pod/my-nginx3 created
 생성된 Pod를 볼까요?
 
 ```bash
-ubuntu@ip-172-31-23-60:~$ kubectl get pods -o wide
-NAME        READY   STATUS    RESTARTS   AGE     IP           NODE              NOMINATED NODE   READINESS GATES
-my-nginx1   1/1     Running   0          14m     172.17.0.2   ip-172-31-23-60   <none>           <none>
-my-nginx2   1/1     Running   0          5m32s   172.17.0.3   ip-172-31-23-60   <none>           <none>
-my-nginx3   1/1     Running   0          117s    172.17.0.8   ip-172-31-23-60   <none>           <none>
+controlplane $ kubectl get pods -o wide
+NAME        READY   STATUS    RESTARTS   AGE    IP            NODE     NOMINATED NODE   READINESS GATES
+my-nginx1   1/1     Running   0          109s   192.168.1.3   node01   <none>           <none>
+my-nginx2   1/1     Running   0          47s    192.168.1.4   node01   <none>           <none>
+my-nginx3   1/1     Running   0          10s    192.168.1.5   node01   <none>           <none>
 ```
 
 > 💻 명령어 `kubectl get pods -o wide`{{exec}}
