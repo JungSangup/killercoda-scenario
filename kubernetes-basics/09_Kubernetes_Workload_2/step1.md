@@ -40,7 +40,7 @@ spec:
 
 **ReplicaSet**을 생성해볼까요?
 ```bash
-ubuntu@ip-172-31-23-60:~$ kubectl apply -f nginx-replicaset.yaml
+controlplane $ kubectl apply -f nginx-replicaset.yaml
 replicaset.apps/nginx-replicaset created
 ```
 
@@ -50,9 +50,9 @@ replicaset.apps/nginx-replicaset created
 
 조회도 해보시구요.
 ```bash
-ubuntu@ip-172-31-23-60:~$ kubectl get replicasets -o wide
-NAME               DESIRED   CURRENT   READY   AGE    CONTAINERS   IMAGES         SELECTOR
-nginx-replicaset   3         3         3       119s   my-nginx     nginx:1.19.3   app=my-nginx
+controlplane $ kubectl get replicasets -o wide
+NAME               DESIRED   CURRENT   READY   AGE   CONTAINERS   IMAGES         SELECTOR
+nginx-replicaset   3         3         1       17s   my-nginx     nginx:1.19.3   app=my-nginx
 ```
 
 > 💻 명령어 `kubectl get replicasets -o wide`{{exec}}
@@ -61,7 +61,7 @@ nginx-replicaset   3         3         3       119s   my-nginx     nginx:1.19.3 
 
 상세조회 결과는 아래와 같습니다.
 ```bash
-ubuntu@ip-172-31-23-60:~$ kubectl describe replicasets nginx-replicaset
+controlplane $ kubectl describe replicasets nginx-replicaset
 Name:         nginx-replicaset
 Namespace:    default
 Selector:     app=my-nginx
@@ -81,11 +81,11 @@ Pod Template:
     Mounts:       <none>
   Volumes:        <none>
 Events:
-  Type    Reason            Age    From                   Message
-  ----    ------            ----   ----                   -------
-  Normal  SuccessfulCreate  3m57s  replicaset-controller  Created pod: nginx-replicaset-fjjxd
-  Normal  SuccessfulCreate  3m57s  replicaset-controller  Created pod: nginx-replicaset-6x5rp
-  Normal  SuccessfulCreate  3m57s  replicaset-controller  Created pod: nginx-replicaset-4b52g
+  Type    Reason            Age   From                   Message
+  ----    ------            ----  ----                   -------
+  Normal  SuccessfulCreate  33s   replicaset-controller  Created pod: nginx-replicaset-dxl9s
+  Normal  SuccessfulCreate  33s   replicaset-controller  Created pod: nginx-replicaset-rtmpq
+  Normal  SuccessfulCreate  33s   replicaset-controller  Created pod: nginx-replicaset-qjf2t
 ```
 
 > 💻 명령어 `kubectl describe replicasets nginx-replicaset`{{exec}}
@@ -97,11 +97,11 @@ ReplicaSet이 하는 일이 그런거니까요.
 
 Pod도 조회해볼까요?
 ```bash
-ubuntu@ip-172-31-23-60:~$ kubectl get pods --show-labels
-NAME                     READY   STATUS    RESTARTS   AGE     LABELS
-nginx-replicaset-4b52g   1/1     Running   0          4m55s   app=my-nginx
-nginx-replicaset-6x5rp   1/1     Running   0          4m55s   app=my-nginx
-nginx-replicaset-fjjxd   1/1     Running   0          4m55s   app=my-nginx
+controlplane $ kubectl get pods --show-labels
+NAME                     READY   STATUS    RESTARTS   AGE   LABELS
+nginx-replicaset-dxl9s   1/1     Running   0          51s   app=my-nginx
+nginx-replicaset-qjf2t   1/1     Running   0          51s   app=my-nginx
+nginx-replicaset-rtmpq   1/1     Running   0          51s   app=my-nginx
 ```
 
 > 💻 명령어 `kubectl get pods --show-labels`{{exec}}
@@ -114,7 +114,7 @@ nginx-replicaset-fjjxd   1/1     Running   0          4m55s   app=my-nginx
 `apply` 를 `delete` 로 바꿔주시면 됩니다. (ง˙∇˙)ว
 
 ```bash
-ubuntu@ip-172-31-23-60:~$ kubectl delete -f nginx-replicaset.yaml
+controlplane $ kubectl delete -f nginx-replicaset.yaml
 replicaset.apps "nginx-replicaset" deleted
 ```
 

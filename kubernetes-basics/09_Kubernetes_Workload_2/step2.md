@@ -31,7 +31,7 @@ spec:
 
 일단 한번 생성해볼게요.
 ```bash
-ubuntu@ip-172-31-23-60:~/mspt3/hands_on_files$ kubectl apply -f nginx-deployment.yaml
+controlplane $ kubectl apply -f nginx-deployment.yaml
 deployment.apps/my-nginx-deployment created
 ```
 
@@ -41,20 +41,20 @@ deployment.apps/my-nginx-deployment created
 
 이번엔 새로운 명령어 `kubectl get all`을 해볼까요?
 ```bash
-ubuntu@ip-172-31-23-60:~$ kubectl get all
-NAME                                       READY   STATUS    RESTARTS   AGE
-pod/my-nginx-deployment-55985c7fcf-2b2r4   1/1     Running   0          33s
-pod/my-nginx-deployment-55985c7fcf-czs5p   1/1     Running   0          32s
-pod/my-nginx-deployment-55985c7fcf-jwmbt   1/1     Running   0          33s
+controlplane $ kubectl get all
+NAME                                      READY   STATUS    RESTARTS   AGE
+pod/my-nginx-deployment-bcc6f6ccb-4gppq   1/1     Running   0          17s
+pod/my-nginx-deployment-bcc6f6ccb-dk4cj   1/1     Running   0          17s
+pod/my-nginx-deployment-bcc6f6ccb-t62sg   1/1     Running   0          17s
 
 NAME                 TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
-service/kubernetes   ClusterIP   10.96.0.1    <none>        443/TCP   4d11h
+service/kubernetes   ClusterIP   10.96.0.1    <none>        443/TCP   5d13h
 
 NAME                                  READY   UP-TO-DATE   AVAILABLE   AGE
-deployment.apps/my-nginx-deployment   3/3     3            3           33s
+deployment.apps/my-nginx-deployment   3/3     3            3           17s
 
-NAME                                             DESIRED   CURRENT   READY   AGE
-replicaset.apps/my-nginx-deployment-55985c7fcf   3         3         3       33s
+NAME                                            DESIRED   CURRENT   READY   AGE
+replicaset.apps/my-nginx-deployment-bcc6f6ccb   3         3         3       18s
 ```
 
 > 💻 명령어 `kubectl get all`{{exec}}
@@ -65,11 +65,11 @@ replicaset.apps/my-nginx-deployment-55985c7fcf   3         3         3       33s
 
 Pod들을 Label까지 같이 보려면 아래와 같이 하면 됩니다.
 ```bash
-ubuntu@ip-172-31-23-60:~$ kubectl get pods --show-labels
-NAME                                   READY   STATUS    RESTARTS   AGE   LABELS
-my-nginx-deployment-55985c7fcf-2b2r4   1/1     Running   0          82s   app=my-nginx,pod-template-hash=55985c7fcf
-my-nginx-deployment-55985c7fcf-czs5p   1/1     Running   0          81s   app=my-nginx,pod-template-hash=55985c7fcf
-my-nginx-deployment-55985c7fcf-jwmbt   1/1     Running   0          82s   app=my-nginx,pod-template-hash=55985c7fcf
+controlplane $ kubectl get pods --show-labels
+NAME                                  READY   STATUS    RESTARTS   AGE   LABELS
+my-nginx-deployment-bcc6f6ccb-4gppq   1/1     Running   0          31s   app=my-nginx,pod-template-hash=bcc6f6ccb
+my-nginx-deployment-bcc6f6ccb-dk4cj   1/1     Running   0          31s   app=my-nginx,pod-template-hash=bcc6f6ccb
+my-nginx-deployment-bcc6f6ccb-t62sg   1/1     Running   0          31s   app=my-nginx,pod-template-hash=bcc6f6ccb
 ```
 
 > 💻 명령어 `kubectl get pods --show-labels`{{exec}}
@@ -78,8 +78,8 @@ my-nginx-deployment-55985c7fcf-jwmbt   1/1     Running   0          82s   app=my
 
 이제 Pod 하나를 삭제(**delete**)해 볼까요?
 ```bash
-ubuntu@ip-172-31-23-60:~$ kubectl delete pods my-nginx-deployment-55985c7fcf-2b2r4
-pod "my-nginx-deployment-55985c7fcf-2b2r4" deleted
+controlplane $ kubectl delete pods my-nginx-deployment-bcc6f6ccb-4gppq
+pod "my-nginx-deployment-bcc6f6ccb-4gppq" deleted
 ```
 
 > 💻 명령어 `kubectl delete pods [POD-NAME]`{{copy}}  
@@ -89,11 +89,11 @@ pod "my-nginx-deployment-55985c7fcf-2b2r4" deleted
 
 그리고, 다시 조회를 해보면...
 ```bash
-ubuntu@ip-172-31-23-60:~$ kubectl get pods --show-labels
-NAME                                   READY   STATUS    RESTARTS   AGE     LABELS
-my-nginx-deployment-55985c7fcf-7tkdt   1/1     Running   0          44s     app=my-nginx,pod-template-hash=55985c7fcf
-my-nginx-deployment-55985c7fcf-czs5p   1/1     Running   0          4m34s   app=my-nginx,pod-template-hash=55985c7fcf
-my-nginx-deployment-55985c7fcf-jwmbt   1/1     Running   0          4m35s   app=my-nginx,pod-template-hash=55985c7fcf
+controlplane $ kubectl get pods --show-labels
+NAME                                  READY   STATUS    RESTARTS   AGE   LABELS
+my-nginx-deployment-bcc6f6ccb-dk4cj   1/1     Running   0          76s   app=my-nginx,pod-template-hash=bcc6f6ccb
+my-nginx-deployment-bcc6f6ccb-m8fb9   1/1     Running   0          17s   app=my-nginx,pod-template-hash=bcc6f6ccb
+my-nginx-deployment-bcc6f6ccb-t62sg   1/1     Running   0          76s   app=my-nginx,pod-template-hash=bcc6f6ccb
 ```
 
 > 💻 명령어 `kubectl get pods --show-labels`{{exec}}
@@ -107,7 +107,7 @@ ReplicaSet이 자기 역할을 다하고 있는 듯 하네요~
 이번엔 scale in/out 방법을 알아보겠습니다. (**replicas**를 조정)  
 **명령형 커맨드** 방식으로는 이렇게 할 수 있습니다.
 ```bash
-ubuntu@ip-172-31-23-60:~$ kubectl scale deployment my-nginx-deployment --replicas=5
+controlplane $ kubectl scale deployment my-nginx-deployment --replicas=5
 deployment.apps/my-nginx-deployment scaled
 ```
 
@@ -117,22 +117,22 @@ deployment.apps/my-nginx-deployment scaled
 
 조회결과도 보겠습니다.
 ```bash
-ubuntu@ip-172-31-23-60:~$ kubectl get all
-NAME                                       READY   STATUS    RESTARTS   AGE
-pod/my-nginx-deployment-55985c7fcf-7tkdt   1/1     Running   0          2m54s
-pod/my-nginx-deployment-55985c7fcf-88jwb   1/1     Running   0          52s
-pod/my-nginx-deployment-55985c7fcf-czs5p   1/1     Running   0          6m44s
-pod/my-nginx-deployment-55985c7fcf-jwmbt   1/1     Running   0          6m45s
-pod/my-nginx-deployment-55985c7fcf-jx8hx   1/1     Running   0          52s
+controlplane $ kubectl get all
+NAME                                      READY   STATUS    RESTARTS   AGE
+pod/my-nginx-deployment-bcc6f6ccb-65g6h   1/1     Running   0          16s
+pod/my-nginx-deployment-bcc6f6ccb-dk4cj   1/1     Running   0          112s
+pod/my-nginx-deployment-bcc6f6ccb-m8fb9   1/1     Running   0          53s
+pod/my-nginx-deployment-bcc6f6ccb-mjjwt   1/1     Running   0          16s
+pod/my-nginx-deployment-bcc6f6ccb-t62sg   1/1     Running   0          112s
 
 NAME                 TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
-service/kubernetes   ClusterIP   10.96.0.1    <none>        443/TCP   4d11h
+service/kubernetes   ClusterIP   10.96.0.1    <none>        443/TCP   5d13h
 
 NAME                                  READY   UP-TO-DATE   AVAILABLE   AGE
-deployment.apps/my-nginx-deployment   5/5     5            5           6m45s
+deployment.apps/my-nginx-deployment   5/5     5            5           113s
 
-NAME                                             DESIRED   CURRENT   READY   AGE
-replicaset.apps/my-nginx-deployment-55985c7fcf   5         5         5       6m45s
+NAME                                            DESIRED   CURRENT   READY   AGE
+replicaset.apps/my-nginx-deployment-bcc6f6ccb   5         5         5       113s
 ```
 
 > 💻 명령어 `kubectl get all`{{exec}}
@@ -155,19 +155,19 @@ Deployment와 ReplicaSet의 내용도 변경된게 보이네요. (Pod 개수에 
 
 조회결과는 아래와 같습니다.
 ```bash
-ubuntu@ip-172-31-23-60:~$ kubectl get all
-NAME                                       READY   STATUS    RESTARTS   AGE
-pod/my-nginx-deployment-55985c7fcf-czs5p   1/1     Running   0          10m
-pod/my-nginx-deployment-55985c7fcf-jwmbt   1/1     Running   0          10m
+controlplane $ kubectl get all
+NAME                                      READY   STATUS    RESTARTS   AGE
+pod/my-nginx-deployment-bcc6f6ccb-dk4cj   1/1     Running   0          2m46s
+pod/my-nginx-deployment-bcc6f6ccb-t62sg   1/1     Running   0          2m46s
 
 NAME                 TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
-service/kubernetes   ClusterIP   10.96.0.1    <none>        443/TCP   4d11h
+service/kubernetes   ClusterIP   10.96.0.1    <none>        443/TCP   5d13h
 
 NAME                                  READY   UP-TO-DATE   AVAILABLE   AGE
-deployment.apps/my-nginx-deployment   2/2     2            2           10m
+deployment.apps/my-nginx-deployment   2/2     2            2           2m46s
 
-NAME                                             DESIRED   CURRENT   READY   AGE
-replicaset.apps/my-nginx-deployment-55985c7fcf   2         2         2       10m
+NAME                                            DESIRED   CURRENT   READY   AGE
+replicaset.apps/my-nginx-deployment-bcc6f6ccb   2         2         2       2m46s
 ```
 
 > 💻 명령어 `kubectl get all`{{exec}}
@@ -179,7 +179,7 @@ editor(e.g. VI Editor)를 이용하여 `.spec.replicas`부분을 수정하면 �
 
 그리고, 마법의 주문 `kubectl apply`를 하는거죠.
 ```bash
-ubuntu@ip-172-31-23-60:~$ kubectl apply -f nginx-deployment.yaml
+controlplane $ kubectl apply -f nginx-deployment.yaml
 deployment.apps/my-nginx-deployment configured
 ```
 
@@ -189,21 +189,21 @@ deployment.apps/my-nginx-deployment configured
 
 조회결과는 아래와 같습니다.
 ```bash
-ubuntu@ip-172-31-23-60:~$ kubectl get all
-NAME                                       READY   STATUS    RESTARTS   AGE
-pod/my-nginx-deployment-55985c7fcf-bqv7g   1/1     Running   0          48s
-pod/my-nginx-deployment-55985c7fcf-czs5p   1/1     Running   0          14m
-pod/my-nginx-deployment-55985c7fcf-dvl2w   1/1     Running   0          48s
-pod/my-nginx-deployment-55985c7fcf-jwmbt   1/1     Running   0          14m
+controlplane $ kubectl get all
+NAME                                      READY   STATUS    RESTARTS   AGE
+pod/my-nginx-deployment-bcc6f6ccb-dk4cj   1/1     Running   0          3m56s
+pod/my-nginx-deployment-bcc6f6ccb-ffdhf   1/1     Running   0          22s
+pod/my-nginx-deployment-bcc6f6ccb-rw52g   1/1     Running   0          22s
+pod/my-nginx-deployment-bcc6f6ccb-t62sg   1/1     Running   0          3m56s
 
 NAME                 TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
-service/kubernetes   ClusterIP   10.96.0.1    <none>        443/TCP   4d11h
+service/kubernetes   ClusterIP   10.96.0.1    <none>        443/TCP   5d13h
 
 NAME                                  READY   UP-TO-DATE   AVAILABLE   AGE
-deployment.apps/my-nginx-deployment   4/4     4            4           14m
+deployment.apps/my-nginx-deployment   4/4     4            4           3m56s
 
-NAME                                             DESIRED   CURRENT   READY   AGE
-replicaset.apps/my-nginx-deployment-55985c7fcf   4         4         4       14m
+NAME                                            DESIRED   CURRENT   READY   AGE
+replicaset.apps/my-nginx-deployment-bcc6f6ccb   4         4         4       3m56s
 ```
 
 > 💻 명령어 `kubectl get all`{{exec}}
@@ -213,7 +213,7 @@ replicaset.apps/my-nginx-deployment-55985c7fcf   4         4         4       14m
 마지막으로 생성한 리소스들을 삭제하고 마치겠습니다.  ˘◡˘  
 
 ```bash
-ubuntu@ip-172-31-23-60:~$ kubectl delete -f nginx-deployment.yaml
+controlplane $ kubectl delete -f nginx-deployment.yaml
 deployment.apps "my-nginx-deployment" deleted
 ```
 
