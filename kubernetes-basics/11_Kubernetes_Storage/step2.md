@@ -1,6 +1,6 @@
 이제 만들어진 PVC, PV를 사용하는 Pod를 생성해 보겠습니다.  
 
-다음과 같이 Deployment를 준비해주세요.
+다음과 같이 Deployment와 Service를 준비해주세요.
 ```yaml
 apiVersion: apps/v1
 kind: Deployment
@@ -37,6 +37,25 @@ spec:
 > 파일명은 **nginx-deployment-volume.yaml**로 합니다.
 
 앞에서 만든 **nginx-pvc**를 사용하고, 컨테이너의 **/usr/share/nginx/html**에 마운트합니다.
+
+<br><br><br>
+
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-nodeport-service
+spec:
+  type: NodePort
+  selector:
+    app: my-nginx
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+      nodePort: 30007
+```
+> 파일명은 **nginx-nodeport-service.yaml**로 합니다.
 
 <br><br><br>
 
