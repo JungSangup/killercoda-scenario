@@ -120,7 +120,7 @@ Forwarding from [::1]:80 -> 80
 controlplane $ echo '127.0.0.1 my-nginx.info' >> /etc/hosts
 ```
 
-> 💻 명령어 `echo '127.0.0.1 my-nginx.info' >> /etc/hosts`{{exec}}
+> 💻 명령어(Tab2) `echo '127.0.0.1 my-nginx.info' >> /etc/hosts`{{exec}}
 
 이제 curl 명령어를 이용해서 연결해볼까요?
 
@@ -153,7 +153,7 @@ Commercial support is available at
 </html>
 ```
 
-> 💻 명령어 `curl http://my-nginx.info`{{exec}}
+> 💻 명령어(Tab2) `curl http://my-nginx.info`{{exec}}
 
 잘 되네요. (ง˙∇˙)ว
 
