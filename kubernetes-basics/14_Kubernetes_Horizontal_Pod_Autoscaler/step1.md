@@ -101,8 +101,8 @@ php-apache-7d665c4ddf-jth8v   1/1     Running   0          29s
 php-apache-7d665c4ddf-nxkzc   1/1     Running   0          29s
 ```
 
-> 💻 명령어 `kubectl get hpa`{{exec}}  
-> 💻 명령어 `kubectl get pods --watch`{{exec}}  
+> 💻 명령어(Tab2) `kubectl get hpa`{{exec}}  
+> 💻 명령어(Tab2) `kubectl get pods --watch`{{exec}}  
 > 1개에서 시작한 Pod의 개수가 늘어나는 걸 확인할 수 있습니다.
 
 <br><br><br>
