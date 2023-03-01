@@ -9,21 +9,28 @@
     },    
     "steps": [
 		  {
-		    "title": "Step 1 - ConfigMap 사용 해보기",
+		    "title": "Step 1 - ConfigMap, Secret 생성하고 사용하기",
 		    "text": "step1.md"
-		  },
-      {
-		    "title": "Step 2 - Secret 사용 해보기",
-		    "text": "step2.md"
 		  }
 	  ],
     "assets": {
         "host01": [
-            {"file": "app.properties", "target": "~/lab"},
-            {"file": "yaml-config.yaml", "target": "~/lab"},
-            {"file": "configmappod.yaml", "target": "~/lab"},
-            {"file": "yaml-secret.yaml", "target": "~/lab"},
-            {"file": "secretpod.yaml", "target": "~/lab"}
+            {"file": "mysql-all.yaml", "target": "~/lab"},
+            {"file": "mysql-pv.yaml", "target": "~/lab"},
+            {"file": "mysql-pvc.yaml", "target": "~/lab"},
+            {"file": "mysql-configmap.yaml", "target": "~/lab"},
+            {"file": "mysql-secret.yaml", "target": "~/lab"},
+            {"file": "mysql-deployment.yaml", "target": "~/lab"},
+            {"file": "mysql-clusterip-service.yaml", "target": "~/lab"},
+            {"file": "todo-all.yaml", "target": "~/lab"},
+            {"file": "todo-pv.yaml", "target": "~/lab"},
+            {"file": "todo-pvc.yaml", "target": "~/lab"},
+            {"file": "todo-deployment.yaml", "target": "~/lab"},
+            {"file": "todo-deployment-volume.yaml", "target": "~/lab"},
+            {"file": "todo-clusterip-service.yaml", "target": "~/lab"},
+            {"file": "todo-nodeport-service.yaml", "target": "~/lab"},
+            {"file": "todo-loadbalancer-service.yaml", "target": "~/lab"},
+            {"file": "todo-ingress.yaml", "target": "~/lab"}
         ]
     }
   },

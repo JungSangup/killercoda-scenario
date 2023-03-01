@@ -89,6 +89,7 @@ my-nginx-deployment-d65998955-zc67r   1/1     Running   0          2m6s
 controlplane $ kubectl exec -it my-nginx-deployment-d65998955-8lcvk -- cat /usr/share/nginx/html/index.html
 <h1>Hello kubernetes</h1>
 ```
+
 > 💻 명령어 `kubectl get pod`{{exec}}  
 > 💻 명령어 `kubectl exec -it [POD-NAME] -- cat /usr/share/nginx/html/index.html`{{copy}}
 > [POD-NAME] 에는 앞에서 조회한 POD중 하나의 이름을 넣어주세요.
