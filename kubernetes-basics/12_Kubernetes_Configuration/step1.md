@@ -16,7 +16,7 @@
 먼저 MySQL을 실행합니다.
 Docker에서는 아래와 같이 했습니다.
 ```bash
-ubuntu@ip-10-0-1-14:~$ docker run -d \
+ubuntu $ docker run -d \
     --network todo-app --network-alias mysql \
     --volume todo-mysql-data:/var/lib/mysql \
     --env MYSQL_ROOT_PASSWORD=secret \
@@ -186,17 +186,20 @@ spec:
 이제 하나씩 생성해줍니다.  
 모두 여섯 개의 리소스를 생성합니다.
 ```bash
-ubuntu@ip-172-31-23-60:~$ kubectl apply -f mysql-configmap.yaml
+controlplane $ kubectl apply -f mysql-configmap.yaml
 configmap/mysql-config created
-ubuntu@ip-172-31-23-60:~$ kubectl apply -f mysql-secret.yaml
+controlplane $ kubectl apply -f mysql-secret.yaml
 secret/mysql-secret created
-ubuntu@ip-172-31-23-60:~$ kubectl apply -f mysql-pvc.yaml
+controlplane $ kubectl apply -f mysql-pv.yaml
+persistentvolume/mysql-pv created
+controlplane $ kubectl apply -f mysql-pvc.yaml
 persistentvolumeclaim/mysql-pvc created
-ubuntu@ip-172-31-23-60:~$ kubectl apply -f mysql-clusterip-service.yaml
+controlplane $ kubectl apply -f mysql-clusterip-service.yaml
 service/todo-mysql-svc created
-ubuntu@ip-172-31-23-60:~$ kubectl apply -f mysql-deployment.yaml
+controlplane $ kubectl apply -f mysql-deployment.yaml
 deployment.apps/todo-mysql-deployment created
 ```
+
 > 💻 명령어
 >```bash
 >kubectl apply -f mysql-configmap.yaml
@@ -211,11 +214,11 @@ deployment.apps/todo-mysql-deployment created
 
 ConfigMap이 잘 생성됐나 볼까요?
 ```bash
-ubuntu@ip-172-31-23-60:~$ kubectl get configmaps
+controlplane $ kubectl get configmaps
 NAME               DATA   AGE
-kube-root-ca.crt   1      4d12h
-mysql-config       2      44s
-ubuntu@ip-172-31-23-60:~$ kubectl describe configmaps mysql-config
+kube-root-ca.crt   1      5d17h
+mysql-config       2      55s
+controlplane $ kubectl describe configmaps mysql-config
 Name:         mysql-config
 Namespace:    default
 Labels:       <none>
@@ -223,12 +226,12 @@ Annotations:  <none>
 
 Data
 ====
-database:
-----
-todos
 lang:
 ----
 C.UTF-8
+database:
+----
+todos
 
 BinaryData
 ====
@@ -245,11 +248,10 @@ lang(C.UTF-8)과 database(todos)두 개의 데이터가 보입니다.
 
 Secret도 볼게요.
 ```bash
-ubuntu@ip-172-31-23-60:~$ kubectl get secrets
-NAME                  TYPE                                  DATA   AGE
-default-token-dskrr   kubernetes.io/service-account-token   3      4d12h
-mysql-secret          Opaque                                1      83s
-ubuntu@ip-172-31-23-60:~$ kubectl describe secrets mysql-secret
+controlplane $ kubectl get secrets
+NAME           TYPE     DATA   AGE
+mysql-secret   Opaque   1      75s
+controlplane $ kubectl describe secrets mysql-secret
 Name:         mysql-secret
 Namespace:    default
 Labels:       <none>
@@ -272,35 +274,38 @@ Secret이니까요. -_-
 
 Pod도 확인해보세요. (Environment, Mounts, Volumes 부분을 잘 보세요.)
 ```bash
-ubuntu@ip-172-31-23-60:~$ kubectl get pod
+controlplane $ kubectl get pod
 NAME                                     READY   STATUS    RESTARTS   AGE
-todo-mysql-deployment-78dd847547-2b7ns   1/1     Running   0          3m2s
-ubuntu@ip-172-31-23-60:~$ kubectl describe pod todo-mysql-deployment-78dd847547-2b7ns
-Name:         todo-mysql-deployment-78dd847547-2b7ns
-Namespace:    default
-Priority:     0
-Node:         ip-172-31-23-60/172.31.23.60
-Start Time:   Thu, 16 Feb 2023 03:03:23 +0000
-Labels:       app=todo-mysql
-              pod-template-hash=78dd847547
-Annotations:  <none>
-Status:       Running
-IP:           172.17.0.2
+todo-mysql-deployment-7cf4865b86-gx4lc   1/1     Running   0          108s
+controlplane $ kubectl describe pod todo-mysql-deployment-7cf4865b86-gx4lc
+Name:             todo-mysql-deployment-7cf4865b86-gx4lc
+Namespace:        default
+Priority:         0
+Service Account:  default
+Node:             node01/172.30.2.2
+Start Time:       Wed, 01 Mar 2023 06:18:42 +0000
+Labels:           app=todo-mysql
+                  pod-template-hash=7cf4865b86
+Annotations:      cni.projectcalico.org/containerID: 16b783b053e91d46942cc6ac73989ea73086013aa2f6ab8489192a87628f14da
+                  cni.projectcalico.org/podIP: 192.168.1.3/32
+                  cni.projectcalico.org/podIPs: 192.168.1.3/32
+Status:           Running
+IP:               192.168.1.3
 IPs:
-  IP:           172.17.0.2
-Controlled By:  ReplicaSet/todo-mysql-deployment-78dd847547
+  IP:           192.168.1.3
+Controlled By:  ReplicaSet/todo-mysql-deployment-7cf4865b86
 Containers:
   todo-mysql-pod:
-    Container ID:  docker://cd07bdadf530178209895eba843b036360393eaa2efe70e93bd8840f626448d7
+    Container ID:  containerd://862829d266a54371c4d19d971e23955772b1bc580d90124e73210466407a3919
     Image:         mysql:5.7
-    Image ID:      docker-pullable://mysql@sha256:8cf035b14977b26f4a47d98e85949a7dd35e641f88fc24aa4b466b36beecf9d6
+    Image ID:      docker.io/library/mysql@sha256:8cf035b14977b26f4a47d98e85949a7dd35e641f88fc24aa4b466b36beecf9d6
     Port:          3306/TCP
     Host Port:     0/TCP
     Args:
       --character-set-server=utf8mb4
       --collation-server=utf8mb4_unicode_ci
     State:          Running
-      Started:      Thu, 16 Feb 2023 03:03:23 +0000
+      Started:      Wed, 01 Mar 2023 06:18:56 +0000
     Ready:          True
     Restart Count:  0
     Environment:
@@ -309,19 +314,19 @@ Containers:
       LANG:                 <set to the key 'lang' of config map 'mysql-config'>      Optional: false
     Mounts:
       /var/lib/mysql from mysql-storage (rw)
-      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-rhgg8 (ro)
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-hdlqf (ro)
 Conditions:
   Type              Status
-  Initialized       True
-  Ready             True
-  ContainersReady   True
-  PodScheduled      True
+  Initialized       True 
+  Ready             True 
+  ContainersReady   True 
+  PodScheduled      True 
 Volumes:
   mysql-storage:
     Type:       PersistentVolumeClaim (a reference to a PersistentVolumeClaim in the same namespace)
     ClaimName:  mysql-pvc
     ReadOnly:   false
-  kube-api-access-rhgg8:
+  kube-api-access-hdlqf:
     Type:                    Projected (a volume that contains injected data from multiple sources)
     TokenExpirationSeconds:  3607
     ConfigMapName:           kube-root-ca.crt
@@ -332,12 +337,13 @@ Node-Selectors:              <none>
 Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
                              node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
 Events:
-  Type    Reason     Age    From               Message
-  ----    ------     ----   ----               -------
-  Normal  Scheduled  3m15s  default-scheduler  Successfully assigned default/todo-mysql-deployment-78dd847547-2b7ns to ip-172-31-23-60
-  Normal  Pulled     3m15s  kubelet            Container image "mysql:5.7" already present on machine
-  Normal  Created    3m15s  kubelet            Created container todo-mysql-pod
-  Normal  Started    3m15s  kubelet            Started container todo-mysql-pod
+  Type    Reason     Age   From               Message
+  ----    ------     ----  ----               -------
+  Normal  Scheduled  119s  default-scheduler  Successfully assigned default/todo-mysql-deployment-7cf4865b86-gx4lc to node01
+  Normal  Pulling    119s  kubelet            Pulling image "mysql:5.7"
+  Normal  Pulled     105s  kubelet            Successfully pulled image "mysql:5.7" in 13.447227849s (13.447233165s including waiting)
+  Normal  Created    105s  kubelet            Created container todo-mysql-pod
+  Normal  Started    105s  kubelet            Started container todo-mysql-pod
 ```
 
 > 💻 명령어 `kubectl get pod`{{exec}}  
@@ -465,7 +471,7 @@ spec:
 여러가지 방법이 있지만, 간단하게 [커맨드 라인에서 자격 증명을 통하여 시크릿 생성하기](https://kubernetes.io/ko/docs/tasks/configure-pod-container/pull-image-private-registry/#%EC%BB%A4%EB%A7%A8%EB%93%9C-%EB%9D%BC%EC%9D%B8%EC%97%90%EC%84%9C-%EC%9E%90%EA%B2%A9-%EC%A6%9D%EB%AA%85%EC%9D%84-%ED%86%B5%ED%95%98%EC%97%AC-%EC%8B%9C%ED%81%AC%EB%A6%BF-%EC%83%9D%EC%84%B1%ED%95%98%EA%B8%B0)방법으로 해볼게요.
 
 ```bash
-ubuntu@ip-172-31-23-60:~$ kubectl create secret docker-registry regcred --docker-server=https://index.docker.io/v1/ --docker-username=rogallo --docker-password=XXXXXX
+controlplane $ kubectl create secret docker-registry regcred --docker-server=https://index.docker.io/v1/ --docker-username=rogallo --docker-password=XXXXXX    
 secret/regcred created
 ```
 
@@ -475,7 +481,7 @@ secret/regcred created
 이것도 많이 쓰이는 Secret의 용도 중 하나입니다.  
 조회도 한 번 해보세요.
 ```bash
-ubuntu@ip-172-31-23-60:~$ kubectl describe secrets regcred
+controlplane $ kubectl describe secrets regcred
 Name:         regcred
 Namespace:    default
 Labels:       <none>
@@ -495,7 +501,7 @@ Data
 이제 ToDo App을 생성해볼게요.  
 생성은 아래처럼 한 번에 됩니다.
 ```bash
-ubuntu@ip-172-31-23-60:~$ kubectl apply -f todo-all.yaml
+controlplane $ kubectl apply -f todo-all.yaml
 secret/todo-secret created
 configmap/todo-config created
 service/todo-app-svc created
@@ -519,38 +525,38 @@ ingress.networking.k8s.io/todo-app-ingress created
 
 POD의 환경변수를 확인하려면 아래처럼도 가능합니다.
 ```bash
-ubuntu@ip-172-31-23-60:~$ kubectl exec -it todo-app-deployment-66764fc999-2b4zp -- env
+controlplane $ kubectl exec -it todo-app-deployment-69b59d644-4t6j8 -- env
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-HOSTNAME=todo-app-deployment-66764fc999-2b4zp
-TERM=xterm
-MYSQL_USER=root
-MYSQL_PASSWORD=secret
-MYSQL_HOST=todo-mysql-svc.default.svc.cluster.local
-MYSQL_DB=todos
-TODO_APP_SVC_PORT_3000_TCP_ADDR=10.99.52.118
-KUBERNETES_SERVICE_PORT_HTTPS=443
-TODO_MYSQL_SVC_SERVICE_HOST=10.108.50.108
-TODO_MYSQL_SVC_SERVICE_PORT=3306
-TODO_MYSQL_SVC_PORT_3306_TCP_ADDR=10.108.50.108
-TODO_APP_SVC_PORT_3000_TCP=tcp://10.99.52.118:3000
-TODO_MYSQL_SVC_PORT_3306_TCP_PORT=3306
-TODO_APP_SVC_SERVICE_PORT=3000
-TODO_APP_SVC_PORT_3000_TCP_PORT=3000
-KUBERNETES_PORT_443_TCP_PORT=443
-TODO_APP_SVC_PORT=tcp://10.99.52.118:3000
-KUBERNETES_PORT=tcp://10.96.0.1:443
-KUBERNETES_PORT_443_TCP=tcp://10.96.0.1:443
-KUBERNETES_PORT_443_TCP_PROTO=tcp
-TODO_MYSQL_SVC_PORT=tcp://10.108.50.108:3306
-TODO_MYSQL_SVC_PORT_3306_TCP=tcp://10.108.50.108:3306
-TODO_MYSQL_SVC_PORT_3306_TCP_PROTO=tcp
-TODO_APP_SVC_SERVICE_HOST=10.99.52.118
-KUBERNETES_PORT_443_TCP_ADDR=10.96.0.1
-TODO_APP_SVC_PORT_3000_TCP_PROTO=tcp
-KUBERNETES_SERVICE_HOST=10.96.0.1
-KUBERNETES_SERVICE_PORT=443
+HOSTNAME=todo-app-deployment-69b59d644-4t6j8
 NODE_VERSION=10.24.1
 YARN_VERSION=1.22.5
+MYSQL_HOST=todo-mysql-svc.default.svc.cluster.local
+MYSQL_DB=todos
+MYSQL_USER=root
+MYSQL_PASSWORD=secret
+TODO_APP_SVC_SERVICE_PORT=3000
+TODO_APP_SVC_PORT_3000_TCP=tcp://10.96.150.70:3000
+KUBERNETES_SERVICE_HOST=10.96.0.1
+KUBERNETES_PORT_443_TCP_PORT=443
+TODO_MYSQL_SVC_PORT_3306_TCP=tcp://10.105.231.101:3306
+TODO_MYSQL_SVC_PORT_3306_TCP_PROTO=tcp
+TODO_APP_SVC_SERVICE_HOST=10.96.150.70
+KUBERNETES_PORT_443_TCP_PROTO=tcp
+TODO_MYSQL_SVC_SERVICE_PORT=3306
+TODO_MYSQL_SVC_PORT_3306_TCP_PORT=3306
+TODO_MYSQL_SVC_PORT_3306_TCP_ADDR=10.105.231.101
+TODO_APP_SVC_PORT_3000_TCP_PORT=3000
+TODO_APP_SVC_PORT_3000_TCP_ADDR=10.96.150.70
+TODO_MYSQL_SVC_SERVICE_HOST=10.105.231.101
+TODO_MYSQL_SVC_PORT=tcp://10.105.231.101:3306
+TODO_APP_SVC_PORT=tcp://10.96.150.70:3000
+KUBERNETES_SERVICE_PORT=443
+KUBERNETES_SERVICE_PORT_HTTPS=443
+KUBERNETES_PORT=tcp://10.96.0.1:443
+KUBERNETES_PORT_443_TCP=tcp://10.96.0.1:443
+KUBERNETES_PORT_443_TCP_ADDR=10.96.0.1
+TODO_APP_SVC_PORT_3000_TCP_PROTO=tcp
+TERM=xterm
 HOME=/root
 ```
 
@@ -569,13 +575,13 @@ HOME=/root
 
 MySQL DB의 테이블에 잘 저장됐는지도 확인해보세요.
 ```bash
-ubuntu@ip-172-31-23-60:~$ kubectl exec -it todo-mysql-deployment-78dd847547-2b7ns -- mysql -p todos
-Enter password:
+controlplane $ kubectl exec -it todo-mysql-deployment-7cf4865b86-gx4lc -- mysql -p todos
+Enter password: 
 Reading table information for completion of table and column names
 You can turn off this feature to get a quicker startup with -A
 
 Welcome to the MySQL monitor.  Commands end with ; or \g.
-Your MySQL connection id is 9
+Your MySQL connection id is 8
 Server version: 5.7.41 MySQL Community Server (GPL)
 
 Copyright (c) 2000, 2023, Oracle and/or its affiliates.
@@ -606,23 +612,25 @@ Bye
 
 이것저것 확인해보시고, 마지막은 생성된 리소스들을 정리해주세요.
 ```bash
-ubuntu@ip-172-31-23-60:~$ kubectl delete -f todo-all.yaml
+controlplane $ kubectl delete -f todo-all.yaml
 secret "todo-secret" deleted
 configmap "todo-config" deleted
 service "todo-app-svc" deleted
 deployment.apps "todo-app-deployment" deleted
 ingress.networking.k8s.io "todo-app-ingress" deleted
-ubuntu@ip-172-31-23-60:~$ kubectl delete secret regcred
+controlplane $ kubectl delete secret regcred
 secret "regcred" deleted
-ubuntu@ip-172-31-23-60:~$ kubectl delete -f mysql-deployment.yaml
+controlplane $ kubectl delete -f mysql-deployment.yaml
 deployment.apps "todo-mysql-deployment" deleted
-ubuntu@ip-172-31-23-60:~$ kubectl delete -f mysql-clusterip-service.yaml
+controlplane $ kubectl delete -f mysql-clusterip-service.yaml
 service "todo-mysql-svc" deleted
-ubuntu@ip-172-31-23-60:~$ kubectl delete -f mysql-pvc.yaml
+controlplane $ kubectl delete -f mysql-pvc.yaml
 persistentvolumeclaim "mysql-pvc" deleted
-ubuntu@ip-172-31-23-60:~$ kubectl delete -f mysql-secret.yaml
+controlplane $ kubectl delete -f mysql-pv.yaml
+persistentvolume "mysql-pv" deleted
+controlplane $ kubectl delete -f mysql-secret.yaml
 secret "mysql-secret" deleted
-ubuntu@ip-172-31-23-60:~$ kubectl delete -f mysql-configmap.yaml
+controlplane $ kubectl delete -f mysql-configmap.yaml
 configmap "mysql-config" deleted
 ```
 > 💻 명령어
@@ -631,8 +639,8 @@ configmap "mysql-config" deleted
 >kubectl delete secret regcred
 >kubectl delete -f mysql-deployment.yaml
 >kubectl delete -f mysql-clusterip-service.yaml
->kubectl delete -f mysql-pv.yaml
 >kubectl delete -f mysql-pvc.yaml
+>kubectl delete -f mysql-pv.yaml
 >kubectl delete -f mysql-secret.yaml
 >kubectl delete -f mysql-configmap.yaml
 >```{{exec}}
