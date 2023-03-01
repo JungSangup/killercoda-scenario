@@ -42,9 +42,9 @@ spec:
 
 다음은 Deployment와 앞에서 실습한 Service까지 리소스를 생성해주세요.
 ```bash
-ubuntu@ip-172-31-23-60:~$ kubectl apply -f nginx-deployment-volume.yaml
+controlplane $ kubectl apply -f nginx-deployment-volume.yaml
 deployment.apps/my-nginx-deployment created
-ubuntu@ip-172-31-23-60:~$ kubectl apply -f nginx-nodeport-service.yaml
+controlplane $ kubectl apply -f nginx-nodeport-service.yaml
 service/nginx-nodeport-service created
 ```
 
@@ -59,7 +59,7 @@ service/nginx-nodeport-service created
 아직 한 가지 더 할 일이 남았습니다.  
 ⚠️ 아래 명령는 pod들이 모두 생성된 후 실행해주세요.
 ```bash
-ubuntu@ip-172-31-23-60:~$ echo '<h1>Hello kubernetes</h1>' >> /tmp/hostpath-provisioner/default/nginx-pvc/index.html
+controlplane $ ssh node01 "echo '<h1>Hello kubernetes</h1>' >> /mnt/data/index.html"
 ```
 
 > 💻 명령어 `ssh node01 "echo '<h1>Hello kubernetes</h1>' >> /mnt/data/index.html"`{{exec}}
@@ -81,12 +81,12 @@ Nginx는 (worker) node에서 실행되기 때문에, **node01**의 hostpath(/mnt
 
 Pod의 파일시스템에도 위의 내용이 반영되어 있는지도 확인해보세요.
 ```bash
-ubuntu@ip-172-31-23-60:~$ kubectl get pods
-NAME                                   READY   STATUS    RESTARTS   AGE
-my-nginx-deployment-7cbbdb88f6-8n59s   1/1     Running   0          116s
-my-nginx-deployment-7cbbdb88f6-jvvsm   1/1     Running   0          116s
-my-nginx-deployment-7cbbdb88f6-w44q8   1/1     Running   0          116s
-ubuntu@ip-172-31-23-60:~$ kubectl exec -it my-nginx-deployment-7cbbdb88f6-8n59s -- cat /usr/share/nginx/html/index.html
+controlplane $ kubectl get pod
+NAME                                  READY   STATUS    RESTARTS   AGE
+my-nginx-deployment-d65998955-8lcvk   1/1     Running   0          2m6s
+my-nginx-deployment-d65998955-xmbn9   1/1     Running   0          2m6s
+my-nginx-deployment-d65998955-zc67r   1/1     Running   0          2m6s
+controlplane $ kubectl exec -it my-nginx-deployment-d65998955-8lcvk -- cat /usr/share/nginx/html/index.html
 <h1>Hello kubernetes</h1>
 ```
 > 💻 명령어 `kubectl get pod`{{exec}}  
@@ -98,14 +98,14 @@ ubuntu@ip-172-31-23-60:~$ kubectl exec -it my-nginx-deployment-7cbbdb88f6-8n59s 
 아래와 같이 사용한 리소스들을 정리해주세요.
 
 ```bash
-ubuntu@ip-172-31-23-60:~$ kubectl delete -f nginx-ingress.yaml
-ingress.networking.k8s.io "my-nginx-ingress" deleted
-ubuntu@ip-172-31-23-60:~$ kubectl delete -f nginx-clusterip-service.yaml
-service "nginx-clusterip-service" deleted
-ubuntu@ip-172-31-23-60:~$ kubectl delete -f nginx-deployment-volume.yaml
+controlplane $ kubectl delete -f nginx-nodeport-service.yaml
+service "nginx-nodeport-service" deleted
+controlplane $ kubectl delete -f nginx-deployment-volume.yaml
 deployment.apps "my-nginx-deployment" deleted
-ubuntu@ip-172-31-23-60:~$ kubectl delete -f nginx-pvc.yaml
+controlplane $ kubectl delete -f nginx-pvc.yaml
 persistentvolumeclaim "nginx-pvc" deleted
+controlplane $ kubectl delete -f nginx-pv.yaml
+persistentvolume "nginx-pv" deleted
 ```
 > 💻 명령어
 >```bash

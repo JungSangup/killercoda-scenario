@@ -49,7 +49,9 @@ spec:
 
 그리고, 아래와 같이 적용합니다.
 ```bash
-ubuntu@ip-172-31-23-60:~$ kubectl apply -f nginx-pvc.yaml
+controlplane $ kubectl apply -f nginx-pv.yaml
+persistentvolume/nginx-pv created
+controlplane $ kubectl apply -f nginx-pvc.yaml
 persistentvolumeclaim/nginx-pvc created
 ```
 
@@ -64,9 +66,9 @@ persistentvolumeclaim/nginx-pvc created
 만들어진 K8s 리소스들을 볼까요?  
 먼저 PVC를 확인해볼게요.
 ```bash
-ubuntu@ip-172-31-23-60:~$ kubectl get persistentvolumeclaims
-NAME        STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   AGE
-nginx-pvc   Bound    pvc-07b9d09b-af9d-4828-b12b-e59960ec7ae9   3Gi        RWO            standard       38s
+controlplane $ kubectl get persistentvolumeclaims
+NAME        STATUS   VOLUME     CAPACITY   ACCESS MODES   STORAGECLASS   AGE
+nginx-pvc   Bound    nginx-pv   3Gi        RWO            manual         24s
 ```
 > 💻 명령어 `kubectl get persistentvolumeclaims`{{exec}}  
 >또는  
@@ -78,9 +80,9 @@ nginx-pvc   Bound    pvc-07b9d09b-af9d-4828-b12b-e59960ec7ae9   3Gi        RWO  
 
 그럼, 이번에는 **PersistentVolume**(**PV**)을 볼까요?
 ```bash
-ubuntu@ip-172-31-23-60:~$ kubectl get persistentvolume
-NAME                                       CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS   CLAIM               STORAGECLASS   REASON   AGE
-pvc-07b9d09b-af9d-4828-b12b-e59960ec7ae9   3Gi        RWO            Delete           Bound    default/nginx-pvc   standard                95s
+controlplane $ kubectl get persistentvolume
+NAME       CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS   CLAIM               STORAGECLASS   REASON   AGE
+nginx-pv   3Gi        RWO            Retain           Bound    default/nginx-pvc   manual                  41s
 ```
 
 > 💻 명령어 `kubectl get persistentvolume`{{exec}}  
@@ -91,25 +93,24 @@ pvc-07b9d09b-af9d-4828-b12b-e59960ec7ae9   3Gi        RWO            Delete     
 
 PV를 좀 더 자세히 볼까요?
 ```bash
-ubuntu@ip-172-31-23-60:~$ kubectl describe persistentvolume pvc-07b9d09b-af9d-4828-b12b-e59960ec7ae9
-Name:            pvc-07b9d09b-af9d-4828-b12b-e59960ec7ae9
-Labels:          <none>
-Annotations:     hostPathProvisionerIdentity: ee1f3efd-6ed4-4c8d-8fa2-9c85a7795642
-                 pv.kubernetes.io/provisioned-by: k8s.io/minikube-hostpath
+controlplane $ kubectl describe persistentvolume nginx-pv
+Name:            nginx-pv
+Labels:          type=local
+Annotations:     pv.kubernetes.io/bound-by-controller: yes
 Finalizers:      [kubernetes.io/pv-protection]
-StorageClass:    standard
+StorageClass:    manual
 Status:          Bound
 Claim:           default/nginx-pvc
-Reclaim Policy:  Delete
+Reclaim Policy:  Retain
 Access Modes:    RWO
 VolumeMode:      Filesystem
 Capacity:        3Gi
 Node Affinity:   <none>
-Message:
+Message:         
 Source:
     Type:          HostPath (bare host directory volume)
-    Path:          /tmp/hostpath-provisioner/default/nginx-pvc
-    HostPathType:
+    Path:          /mnt/data
+    HostPathType:  
 Events:            <none>
 ```
 > 💻 명령어 `kubectl describe persistentvolume nginx-pv`{{exec}}  
