@@ -35,47 +35,48 @@ CMD ["java","HelloDocker"]
 
 준비를 마친 상태는 아래와 같습니다.
 ```bash
-ubuntu@ip-172-31-23-60:~$ tree
+ubuntu $ tree
 .
 ├── Dockerfile1
 └── HelloDocker.java
 
 0 directories, 2 files
 ```
+> `tree`명령어를 실행하려면 `apt install tree`를 실행해서 설치 후 사용하세요.
 
 <br><br><br>
 
 이제 아래 명령어로 hellodocker 이미지를 생성합니다.
 ```bash
-ubuntu@ip-172-31-23-60:~$ docker build -f Dockerfile1 -t hellodocker:v1 .
+ubuntu $ docker build -f Dockerfile1 -t hellodocker:v1 .
 Sending build context to Docker daemon  4.096kB
 Step 1/5 : FROM openjdk:8
 8: Pulling from library/openjdk
-001c52e26ad5: Pull complete
-d9d4b9b6e964: Pull complete
-2068746827ec: Pull complete
-9daef329d350: Pull complete
-d85151f15b66: Pull complete
-52a8c426d30b: Pull complete
-8754a66e0050: Pull complete
+001c52e26ad5: Pull complete 
+d9d4b9b6e964: Pull complete 
+2068746827ec: Pull complete 
+9daef329d350: Pull complete 
+d85151f15b66: Pull complete 
+52a8c426d30b: Pull complete 
+8754a66e0050: Pull complete 
 Digest: sha256:86e863cc57215cfb181bd319736d0baf625fe8f150577f9eb58bd937f5452cb8
 Status: Downloaded newer image for openjdk:8
  ---> b273004037cc
 Step 2/5 : COPY HelloDocker.java /hello/
- ---> 586ddfe9c462
+ ---> 2d7c9424a882
 Step 3/5 : WORKDIR /hello
- ---> Running in b6c0c7b804ce
-Removing intermediate container b6c0c7b804ce
- ---> 31be5909e298
+ ---> Running in 8cd8a2cb2577
+Removing intermediate container 8cd8a2cb2577
+ ---> 87d65c7cc26e
 Step 4/5 : RUN javac HelloDocker.java
- ---> Running in 8cc4ee5c98f4
-Removing intermediate container 8cc4ee5c98f4
- ---> a12ffad6b75b
+ ---> Running in 08ad8bfa412d
+Removing intermediate container 08ad8bfa412d
+ ---> c0487125c1f3
 Step 5/5 : CMD ["java","HelloDocker"]
- ---> Running in d6f4b1a2ebef
-Removing intermediate container d6f4b1a2ebef
- ---> 91d22f496ae4
-Successfully built 91d22f496ae4
+ ---> Running in c2a8191d98a1
+Removing intermediate container c2a8191d98a1
+ ---> 296a43ae317f
+Successfully built 296a43ae317f
 Successfully tagged hellodocker:v1
 ```
 
@@ -85,16 +86,16 @@ Successfully tagged hellodocker:v1
 
 빌드가 성공하면 `docker images`명령어로 조회도 해보세요.
 ```bash
-ubuntu@ip-172-31-23-60:~/mspt3/hands_on_files/dockerfile$ docker images hellodocker
-REPOSITORY    TAG       IMAGE ID       CREATED              SIZE
-hellodocker   v1        91d22f496ae4   About a minute ago   526MB
+ubuntu $ docker images hellodocker
+REPOSITORY    TAG       IMAGE ID       CREATED          SIZE
+hellodocker   v1        296a43ae317f   20 seconds ago   526MB
 ```
 
 > 💻 명령어 `docker images hellodocker`{{exec}}
 
 이미지가 준비됐으니 이제 실행을 해볼게요.
 ```bash
-ubuntu@ip-172-31-23-60:~$ docker run --rm hellodocker:v1
+ubuntu $ docker run --rm hellodocker:v1
 Hello Docker!!!
 ```
 
