@@ -22,9 +22,10 @@ apiservice.apiregistration.k8s.io/v1beta1.metrics.k8s.io created
 바로 적용되지는 않습니다. 아래와 같이 명령어의 결과가 나올 때 까지 조금 기다려주세요.  
 
 ```bash
-ubuntu@ip-172-31-23-60:~$ kubectl top node
-NAME              CPU(cores)   CPU%   MEMORY(bytes)   MEMORY%
-ip-172-31-23-60   121m         6%     1921Mi          49%
+controlplane $ kubectl top node
+NAME           CPU(cores)   CPU%   MEMORY(bytes)   MEMORY%   
+controlplane   213m         21%    1216Mi          64%       
+node01         40m          4%     924Mi           49%
 ```
 
 > 💻 명령어 `kubectl top node`{{exec}}
@@ -32,14 +33,15 @@ ip-172-31-23-60   121m         6%     1921Mi          49%
 <br><br><br>
 
 이제 준비가 됐으면, 다음 명령어를 실행하여 간단한 테스트용 Pod 를 준비합니다.
-```yaml
-ubuntu@ip-172-31-23-60:~$ kubectl apply -f https://k8s.io/examples/application/php-apache.yaml
+```bash
+controlplane $ kubectl apply -f https://k8s.io/examples/application/php-apache.yaml
 deployment.apps/php-apache created
 service/php-apache created
 ```
 
 > 💻 명령어 `kubectl apply -f https://k8s.io/examples/application/php-apache.yaml`{{exec}}  
-> Deployment와 Service가 만들어집니다.
+
+Deployment와 Service가 만들어집니다.
 
 <br><br><br>
 
@@ -48,7 +50,7 @@ service/php-apache created
 명령어는 다음과 같습니다.  
 CPU 사용량을 50%로 유지하기 위해서 Pod의 개수를 1 에서 10 사이로 조정하라는 의미입니다.
 ```bash
-ubuntu@ip-172-31-23-60:~$ kubectl autoscale deployment php-apache --cpu-percent=50 --min=1 --max=10
+controlplane $ kubectl autoscale deployment php-apache --cpu-percent=50 --min=1 --max=10
 horizontalpodautoscaler.autoscaling/php-apache autoscaled
 ```
 
@@ -58,9 +60,9 @@ horizontalpodautoscaler.autoscaling/php-apache autoscaled
 
 잘 만들어졌나 볼까요?
 ```bash
-ubuntu@ip-172-31-23-60:~$ kubectl get hpa
+controlplane $ kubectl get hpa
 NAME         REFERENCE               TARGETS   MINPODS   MAXPODS   REPLICAS   AGE
-php-apache   Deployment/php-apache   0%/50%    1         10        1          39s
+php-apache   Deployment/php-apache   0%/50%    1         10        1          23s
 ```
 
 > 💻 명령어 `kubectl get hpa`{{exec}}
@@ -75,9 +77,9 @@ php-apache   Deployment/php-apache   0%/50%    1         10        1          39
 시스템에 사용자가 늘어난 상황을 비슷하게 만든거라고 보시면 됩니다.
 
 ```bash
-ubuntu@ip-172-31-23-60:~$ kubectl run -it load-generator --rm --image=busybox --restart=Never -- /bin/sh -c "while sleep 0.01; do wget -q -O- http://php-apache; done"
+controlplane $ kubectl run -it load-generator --rm --image=busybox --restart=Never -- /bin/sh -c "while sleep 0.01; do wget -q -O- http://php-apache; done"
 If you don't see a command prompt, try pressing enter.
-OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!
+OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!
 ```
 
 > 💻 명령어 `kubectl run -it load-generator --rm --image=busybox --restart=Never -- /bin/sh -c "while sleep 0.01; do wget -q -O- http://php-apache; done"`{{exec}}
@@ -87,18 +89,19 @@ OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK
 이제 터미널 탭을 하나 더 열고 아래 명령어를 실행해서 어떤 변화가 있는지 알아봅니다.  
 > 탭 추가 방법 : 터미널 화면 좌측 상단의 **Tab 1** 옆의 **+**를 클릭하세요.
 ```bash
-ubuntu@ip-172-31-23-60:~$ kubectl get hpa
+controlplane $ kubectl get hpa
 NAME         REFERENCE               TARGETS    MINPODS   MAXPODS   REPLICAS   AGE
-php-apache   Deployment/php-apache   250%/50%   1         10        4          3m50s
+php-apache   Deployment/php-apache   250%/50%   1         10        1          91s
 
-ubuntu@ip-172-31-23-60:~$ kubectl get pods
-NAME                          READY   STATUS    RESTARTS   AGE
-load-generator                1/1     Running   0          109s
-php-apache-7d665c4ddf-8pjtg   1/1     Running   0          29s
-php-apache-7d665c4ddf-dgdjh   0/1     Pending   0          14s
-php-apache-7d665c4ddf-j6zsq   1/1     Running   0          5m33s
-php-apache-7d665c4ddf-jth8v   1/1     Running   0          29s
-php-apache-7d665c4ddf-nxkzc   1/1     Running   0          29s
+controlplane $ kubectl get pods --watch
+NAME                          READY   STATUS              RESTARTS   AGE
+load-generator                1/1     Running             0          45s
+php-apache-7495ff8f5b-6q5x8   1/1     Running             0          3s
+php-apache-7495ff8f5b-975ll   0/1     ContainerCreating   0          3s
+php-apache-7495ff8f5b-fn7mx   1/1     Running             0          3m17s
+php-apache-7495ff8f5b-smscg   0/1     ContainerCreating   0          3s
+php-apache-7495ff8f5b-smscg   1/1     Running             0          3s
+php-apache-7495ff8f5b-975ll   1/1     Running             0          3s
 ```
 
 > 💻 명령어(Tab2) `kubectl get hpa`{{exec}}  
@@ -116,9 +119,9 @@ Ctrl + c로 중지하시면 됩니다.
 
 마지막으로 사용된 HPA와 Pod를 삭제하고 마치겠습니다.
 ```bash
-ubuntu@ip-172-31-23-60:~$ kubectl delete hpa php-apache
+controlplane $ kubectl delete hpa php-apache
 horizontalpodautoscaler.autoscaling "php-apache" deleted
-ubuntu@ip-172-31-23-60:~$ kubectl delete -f https://k8s.io/examples/application/php-apache.yaml
+controlplane $ kubectl delete -f https://k8s.io/examples/application/php-apache.yaml
 deployment.apps "php-apache" deleted
 service "php-apache" deleted
 ```
