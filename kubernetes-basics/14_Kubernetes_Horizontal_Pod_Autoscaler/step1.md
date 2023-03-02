@@ -5,7 +5,7 @@ Horizontal Pod Autoscaler(HPA)를 이용하여 자동으로 Pod의 개수를 조
 먼저 자원 모니터링을 위한 metrics-server가 필요합니다.
 
 ```bash
-controlplane $ kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+controlplane $ kubectl apply -f metrics-server-components.yaml
 serviceaccount/metrics-server created
 clusterrole.rbac.authorization.k8s.io/system:aggregated-metrics-reader created
 clusterrole.rbac.authorization.k8s.io/system:metrics-server created
@@ -17,7 +17,7 @@ deployment.apps/metrics-server created
 apiservice.apiregistration.k8s.io/v1beta1.metrics.k8s.io created
 ```
 
-> 💻 명령어 `kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml`{{exec}}
+> 💻 명령어 `kubectl apply -f metrics-server-components.yaml`{{exec}}
 
 바로 적용되지는 않습니다. 아래와 같이 명령어의 결과가 나올 때 까지 조금 기다려주세요.  
 
