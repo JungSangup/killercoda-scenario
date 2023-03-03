@@ -50,11 +50,11 @@ Deployment와 Service가 만들어집니다.
 명령어는 다음과 같습니다.  
 CPU 사용량을 50%로 유지하기 위해서 Pod의 개수를 1 에서 10 사이로 조정하라는 의미입니다.
 ```bash
-controlplane $ kubectl autoscale deployment php-apache --cpu-percent=50 --min=1 --max=10
+controlplane $ kubectl autoscale deployment php-apache --cpu-percent=30 --min=1 --max=5
 horizontalpodautoscaler.autoscaling/php-apache autoscaled
 ```
 
-> 💻 명령어 `kubectl autoscale deployment php-apache --cpu-percent=50 --min=1 --max=10`{{exec}}
+> 💻 명령어 `kubectl autoscale deployment php-apache --cpu-percent=30 --min=1 --max=5`{{exec}}
 
 <br><br><br>
 
@@ -62,7 +62,7 @@ horizontalpodautoscaler.autoscaling/php-apache autoscaled
 ```bash
 controlplane $ kubectl get hpa
 NAME         REFERENCE               TARGETS   MINPODS   MAXPODS   REPLICAS   AGE
-php-apache   Deployment/php-apache   0%/50%    1         10        1          23s
+php-apache   Deployment/php-apache   0%/30%    1         5         1          15s
 ```
 
 > 💻 명령어 `kubectl get hpa`{{exec}}
@@ -93,19 +93,21 @@ controlplane $ kubectl get hpa
 NAME         REFERENCE               TARGETS    MINPODS   MAXPODS   REPLICAS   AGE
 php-apache   Deployment/php-apache   250%/50%   1         10        1          91s
 
-controlplane $ kubectl get pods --watch
-NAME                          READY   STATUS              RESTARTS   AGE
-load-generator                1/1     Running             0          45s
-php-apache-7495ff8f5b-6q5x8   1/1     Running             0          3s
-php-apache-7495ff8f5b-975ll   0/1     ContainerCreating   0          3s
-php-apache-7495ff8f5b-fn7mx   1/1     Running             0          3m17s
-php-apache-7495ff8f5b-smscg   0/1     ContainerCreating   0          3s
-php-apache-7495ff8f5b-smscg   1/1     Running             0          3s
-php-apache-7495ff8f5b-975ll   1/1     Running             0          3s
+controlplane $ watch -n 1 kubectl get pods
+```
+```bash
+Every 1.0s: kubectl get pods                                                                                                                                             controlplane: Fri Mar  3 16:10:07 2023
+
+NAME                          READY   STATUS    RESTARTS   AGE
+load-generator                1/1     Running   0          30s
+php-apache-7495ff8f5b-4rrxk   1/1     Running   0          10s
+php-apache-7495ff8f5b-9x8mf   1/1     Running   0          2m53s
+php-apache-7495ff8f5b-czdcb   1/1     Running   0          10s
+php-apache-7495ff8f5b-ztv42   1/1     Running   0          10
 ```
 
 > 💻 명령어(Tab2) `kubectl get hpa`{{exec}}  
-> 💻 명령어(Tab2) `kubectl get pods --watch`{{exec}}  
+> 💻 명령어(Tab2) `watch -n 1 kubectl get pods`{{exec}}  
 > 1개에서 시작한 Pod의 개수가 늘어나는 걸 확인할 수 있습니다.
 
 <br><br><br>
@@ -114,6 +116,8 @@ php-apache-7495ff8f5b-975ll   1/1     Running             0          3s
 Ctrl + c로 중지하시면 됩니다.
 
 부하를 중지하면 다시 Pod의 수가 줄어드는것도 확인할 수 있습니다.
+
+두 번째 터미널의 watch명령어도 Ctrl + c로 중지해주세요.
 
 <br><br><br>
 
@@ -126,7 +130,7 @@ deployment.apps "php-apache" deleted
 service "php-apache" deleted
 ```
 
-> 💻 명령어 `kubectl delete hpa php-apache`{{exec}}  
-> 💻 명령어 `kubectl delete -f https://k8s.io/examples/application/php-apache.yaml`{{exec}}
+> 💻 명령어(Tab1) `kubectl delete hpa php-apache`{{exec}}  
+> 💻 명령어(Tab1) `kubectl delete -f https://k8s.io/examples/application/php-apache.yaml`{{exec}}
 
 끝~~~  ＿〆(。╹‿ ╹ 。)
