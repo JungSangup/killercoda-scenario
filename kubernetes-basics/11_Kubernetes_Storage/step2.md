@@ -81,7 +81,7 @@ service/nginx-nodeport-service created
 controlplane $ ssh node01 "echo '<h1>Hello kubernetes</h1>' >> /mnt/data/index.html"
 ```
 
-> 💻 명령어 `ssh node01 "echo '<h1>Hello kubernetes</h1>' >> /mnt/data/index.html"`{{exec}}
+> 💻 명령어 `ssh node01 "echo '<h1>Hello kubernetes</h1> <br> <iframe width="1400" height="788" src="https://www.youtube.com/embed/JbHI1yI1Ndk" allowfullscreen></iframe>' >> /mnt/data/index.html"`{{exec}}
 
 <br>
 
