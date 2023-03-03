@@ -51,6 +51,9 @@ todo-app-deployment-d9f967656-jhjwx   1/1     Running   0          32s
 > 💻 명령어 `kubectl delete pod --all`{{exec}}  
 > 💻 명령어 `kubectl get pod`{{exec}}
 
+위의 명령어들을 실행한 다음에도 데이터들이 유지되는지 확인해보세요.  
+이유는... 여러분도 잘 아시다시피, 데이터는 Volume영역에 저장되기 때문입니다.
+
 <br><br><br>
 
 다 해보셨으면, 깨끗이 정리하고 마칠게요.
