@@ -26,7 +26,9 @@ service/todo-clusterip-service created
 
 이제 브라우저에서 어떻게 나오나 볼까요?
 
-🔗 [ToDo List Manager]({{TRAFFIC_HOST1_30007}})
+🔗 [ToDo List Manager]({{TRAFFIC_HOST1_30007}})  
+
+![h:300](./img/k8s_todo_nodeport.png)
 
 <br><br><br>
 
