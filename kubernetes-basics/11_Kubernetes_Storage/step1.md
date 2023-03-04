@@ -1,30 +1,28 @@
 도커에서와 마찬가지로 컨테이너의 데이터 저장을 위해서 Volume을 생성해 보겠습니다.  
 이번 실습은 다양한 방법 중에서
 
-- [Static Volume Provisioning](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#static) 을 적용하고,  
-- [hostPath](https://kubernetes.io/ko/docs/concepts/storage/volumes/#hostpath) 유형의 Volume을 사용  
+- Storage class를 이용한 [Dynamic Volume Provisioning](https://kubernetes.io/ko/docs/concepts/storage/dynamic-provisioning/) 을 적용하고,
+- [local](https://kubernetes.io/ko/docs/concepts/storage/volumes/#local) 유형의 Volume을 사용  
 
 해서 진행해 보겠습니다.
 
-먼저 PersistentVolume(PV)을 만들겠습니다.  
-아래와 같은 파일을 준비해주세요.
-```yaml
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: nginx-pv
-  labels:
-    type: local
-spec:
-  storageClassName: manual
-  capacity:
-    storage: 3Gi
-  accessModes:
-    - ReadWriteOnce
-  hostPath:
-    path: "/mnt/data"
+먼저 우리 환경이 준비가 되어있는지 확인해볼게요.  
+우리 Cluster에서 사용가능한 Storageclass가 있는지 확인합니다.
+```bash
+controlplane $ kubectl get storageclasses
+NAME                   PROVISIONER             RECLAIMPOLICY   VOLUMEBINDINGMODE      ALLOWVOLUMEEXPANSION   AGE
+local-path (default)   rancher.io/local-path   Delete          WaitForFirstConsumer   false                  8d
 ```
-> 파일명은 **nginx-pv.yaml**로 합니다.
+
+> 💻 명령어
+>```bash
+>kubectl get storageclasses
+>```
+
+<br>
+
+Killercoda는 기본적으로 위와같은 StorageClass가 있습니다.  
+간단히 테스트해볼 수 있도록, local 타입의 Volume을 만들 수 있습니다.
 
 <br><br><br>
 
@@ -36,7 +34,6 @@ kind: PersistentVolumeClaim
 metadata:
   name: nginx-pvc
 spec:
-  storageClassName: manual
   accessModes:
     - ReadWriteOnce
   resources:
@@ -49,17 +46,11 @@ spec:
 
 그리고, 아래와 같이 적용합니다.
 ```bash
-controlplane $ kubectl apply -f nginx-pv.yaml
-persistentvolume/nginx-pv created
 controlplane $ kubectl apply -f nginx-pvc.yaml
 persistentvolumeclaim/nginx-pvc created
 ```
 
-> 💻 명령어
-> ```bash
-> kubectl apply -f nginx-pv.yaml
-> kubectl apply -f nginx-pvc.yaml
-> ```{{exec}}
+> 💻 명령어 `kubectl apply -f nginx-pvc.yaml`{{exec}}
 
 <br><br><br>
 
@@ -113,9 +104,10 @@ Source:
     HostPathType:  
 Events:            <none>
 ```
-> 💻 명령어 `kubectl describe persistentvolume nginx-pv`{{exec}}  
+> 💻 명령어 `kubectl describe persistentvolume [PV-NAME]`{{copy}}  
 >또는  
-> 💻 명령어 `kubectl describe pv nginx-pv`{{exec}}
+> 💻 명령어 `kubectl describe pv [PV-NAME]`{{exec}}  
+> [PV-NAME] 에는 앞에서 만들어진 PV의 Name을 넣어주세요.
 
 **Source**아래 내용을 보시면 어디에 Volume영역이 할당되었는지 알 수 있습니다.  
 위의 경우는 **HostPath**타입을 이용했고, **/mnt/data**를 Volume의 위치로 사용하고 있습니다.

@@ -2,11 +2,9 @@
 Docker Volumes 실습의 Kubernetes 버젼이라고 보시면 될 것 같아요.
 
 아래 순서대로 생성합니다.
-> PV생성 > PVC 생성 > Deployment 생성 > Service 생성 > Ingress 생성
+> PVC 생성 > Deployment 생성 > Service 생성 > Ingress 생성
 
 ```bash
-controlplane $ kubectl apply -f todo-pv.yaml
-persistentvolume/todo-pv created
 controlplane $ kubectl apply -f todo-pvc.yaml
 persistentvolumeclaim/todo-pvc created
 controlplane $ kubectl apply -f todo-deployment-volume.yaml
@@ -16,7 +14,6 @@ service/todo-clusterip-service created
 ```
 > 💻 명령어
 >```bash
->kubectl apply -f todo-pv.yaml
 >kubectl apply -f todo-pvc.yaml
 >kubectl apply -f todo-deployment-volume.yaml
 >kubectl apply -f todo-nodeport-service.yaml
@@ -67,15 +64,12 @@ controlplane $ kubectl delete -f todo-deployment-volume.yaml
 deployment.apps "todo-app-deployment" deleted
 controlplane $ kubectl delete -f todo-pvc.yaml
 persistentvolumeclaim "todo-pvc" deleted
-controlplane $ kubectl delete -f todo-pv.yaml
-persistentvolume "todo-pv" deleted
 ```
 > 💻 명령어
 >```bash
 >kubectl delete -f todo-nodeport-service.yaml
 >kubectl delete -f todo-deployment-volume.yaml
 >kubectl delete -f todo-pvc.yaml
->kubectl delete -f todo-pv.yaml
 >```{{exec}}
 
 <br>

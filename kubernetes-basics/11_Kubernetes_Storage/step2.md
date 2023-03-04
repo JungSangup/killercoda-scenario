@@ -86,9 +86,9 @@ controlplane $ ssh node01 "echo '<h1>Hello kubernetes</h1>' >> /mnt/data/index.h
 <br>
 
 Nginx에서 보여줄 간단한 **index.html**파일을 하나 만들었습니다.  
-Nginx는 (worker) node에서 실행되기 때문에, **node01**의 hostpath(/mnt/data)에 파일(index.html)을 생성했습니다.
+혹시 PV의 경로가 다르다면 거기에 맞춰서 해주세요.  
 
-* 이 실습은 PVC, PV, Pod의 동작을 살펴보기 위한 것입니다. HostPath유형의 사용상 주의사항은 [hostPath](https://kubernetes.io/ko/docs/concepts/storage/volumes/#hostpath)를 참고하세요.
+Nginx는 (worker) node에서 실행되기 때문에, **node01**의 local(/mnt/data)에 파일(index.html)을 생성했습니다.
 
 <br><br><br>
 
@@ -106,7 +106,7 @@ my-nginx-deployment-d65998955-8lcvk   1/1     Running   0          2m6s
 my-nginx-deployment-d65998955-xmbn9   1/1     Running   0          2m6s
 my-nginx-deployment-d65998955-zc67r   1/1     Running   0          2m6s
 controlplane $ kubectl exec -it my-nginx-deployment-d65998955-8lcvk -- cat /usr/share/nginx/html/index.html
-<h1>Hello kubernetes</h1>
+<h1>Hello kubernetes</h1> <br> <iframe width="1400" height="788" src="https://www.youtube.com/embed/JbHI1yI1Ndk" allowfullscreen></iframe>
 ```
 
 > 💻 명령어 `kubectl get pod`{{exec}}  
@@ -124,13 +124,10 @@ controlplane $ kubectl delete -f nginx-deployment-volume.yaml
 deployment.apps "my-nginx-deployment" deleted
 controlplane $ kubectl delete -f nginx-pvc.yaml
 persistentvolumeclaim "nginx-pvc" deleted
-controlplane $ kubectl delete -f nginx-pv.yaml
-persistentvolume "nginx-pv" deleted
 ```
 > 💻 명령어
 >```bash
 >kubectl delete -f nginx-nodeport-service.yaml
 >kubectl delete -f nginx-deployment-volume.yaml
 >kubectl delete -f nginx-pvc.yaml
->kubectl delete -f nginx-pv.yaml
 >```{{exec}}
