@@ -9,13 +9,17 @@
     },    
     "steps": [
 		  {
-		    "title": "Step 1 - Helm 기본 명령어 사용 해보기",
+		    "title": "Step 1 - Helm 기본 사용법 알아보기",
 		    "text": "step1.md"
+		  },
+      {
+		    "title": "Step 2 - ToDo App. 실행해보기",
+		    "text": "step2.md"
 		  }
 	  ],
     "assets": {
         "host01": [
-            {"file": "helm", "target": "/usr/local/bin", "chmod": "+x"}
+            {"file": "todo-app-1.0.0.tgz", "target": "~/lab"}
         ]
     }
   },

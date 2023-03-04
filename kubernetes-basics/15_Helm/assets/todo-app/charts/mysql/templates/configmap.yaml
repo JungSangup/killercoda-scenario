@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mysql-config
+data:
+  database: {{ .Values.configmap.database | quote }}
+  lang: {{ .Values.configmap.lang | quote }}

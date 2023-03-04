@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "todo-app.fullname" . }}-config
+data:
+  mysql-host: {{ .Release.Name }}-mysql.default.svc.cluster.local
+  mysql-db: {{ .Values.configmap.mysqlDb | quote }}
