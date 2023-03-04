@@ -1,4 +1,4 @@
-이제 만들어진 PVC, PV를 사용하는 Pod를 생성해 보겠습니다.  
+이제 PVC, PV를 사용하는 Pod를 생성해 보겠습니다.  
 
 다음과 같이 Deployment와 Service를 준비해주세요.
 ```yaml
@@ -75,13 +75,67 @@ service/nginx-nodeport-service created
 
 <br><br><br>
 
+이제 다시 PVC와 PV를 보겠습니다.
+```bash
+controlplane $ kubectl get pvc
+NAME        STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   AGE
+nginx-pvc   Bound    pvc-f9dcb809-0a97-4a26-b88e-f002f0b6dc5b   3Gi        RWO            local-path     7m3s
+controlplane $ kubectl get pv
+NAME                                       CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS   CLAIM               STORAGECLASS   REASON   AGE
+pvc-f9dcb809-0a97-4a26-b88e-f002f0b6dc5b   3Gi        RWO            Delete           Bound    default/nginx-pvc   local-path              33s
+```
+
+> 💻 명령어
+>```bash
+>kubectl get pvc
+>kubectl get pv
+>```{{exec}}
+
+consumer를 생성했더니, pv까지 잘 생성이 됐네요.
+
+PV를 좀 더 자세히 볼까요?
+```bash
+controlplane $ kubectl describe persistentvolume pvc-f9dcb809-0a97-4a26-b88e-f002f0b6dc5b
+Name:              pvc-f9dcb809-0a97-4a26-b88e-f002f0b6dc5b
+Labels:            <none>
+Annotations:       pv.kubernetes.io/provisioned-by: rancher.io/local-path
+Finalizers:        [kubernetes.io/pv-protection]
+StorageClass:      local-path
+Status:            Bound
+Claim:             default/nginx-pvc
+Reclaim Policy:    Delete
+Access Modes:      RWO
+VolumeMode:        Filesystem
+Capacity:          3Gi
+Node Affinity:     
+  Required Terms:  
+    Term 0:        kubernetes.io/hostname in [node01]
+Message:           
+Source:
+    Type:          HostPath (bare host directory volume)
+    Path:          /opt/local-path-provisioner/pvc-f9dcb809-0a97-4a26-b88e-f002f0b6dc5b_default_nginx-pvc
+    HostPathType:  DirectoryOrCreate
+Events:            <none>
+````
+
+> 💻 명령어 `kubectl describe persistentvolume [PV-NAME]`{{copy}}  
+> 또는  
+> 💻 명령어 `kubectl describe pv [PV-NAME]`{{copy}}  
+> [PV-NAME] 에는 앞에서 만들어진 PV의 Name을 넣어주세요.
+
+Source아래 내용을 보시면 어디에 Volume영역이 할당되었는지 알 수 있습니다.  
+위의 경우는 HostPath타입을 이용했고, **/opt/local-path-provisioner/pvc-f9dcb809-0a97-4a26-b88e-f002f0b6dc5b_default_nginx-pvc**를 Volume의 위치로 사용하고 있습니다.
+
+<br><br><br>
+
 아직 한 가지 더 할 일이 남았습니다.  
 ⚠️ 아래 명령는 pod들이 모두 생성된 후 실행해주세요.
 ```bash
-controlplane $ ssh node01 "echo '<h1>Hello kubernetes</h1>' >> /mnt/data/index.html"
+controlplane $ ssh node01 "echo '<h1>Hello kubernetes</h1>' >> /opt/local-path-provisioner/pvc-f9dcb809-0a97-4a26-b88e-f002f0b6dc5b_default_nginx-pvc/index.html"
 ```
 
-> 💻 명령어 `ssh node01 "echo '<h1>Hello kubernetes</h1> <br> <iframe width="1400" height="788" src="https://www.youtube.com/embed/JbHI1yI1Ndk" allowfullscreen></iframe>' >> /mnt/data/index.html"`{{exec}}
+> 💻 명령어 `ssh node01 "echo '<h1>Hello kubernetes</h1> <br> <iframe width="1400" height="788" src="https://www.youtube.com/embed/JbHI1yI1Ndk" allowfullscreen></iframe>' >> [MNT-PATH]/index.html"`{{copy}}  
+> [MNT-PATH] 에는 앞에서 확인한 PV의 Path 정보를 넣어주세요.
 
 <br>
 

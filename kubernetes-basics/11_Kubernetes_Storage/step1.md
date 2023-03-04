@@ -14,10 +14,7 @@ NAME                   PROVISIONER             RECLAIMPOLICY   VOLUMEBINDINGMODE
 local-path (default)   rancher.io/local-path   Delete          WaitForFirstConsumer   false                  8d
 ```
 
-> 💻 명령어
->```bash
->kubectl get storageclasses
->```
+> 💻 명령어 `kubectl get storageclasses`{{exec}}
 
 <br>
 
@@ -58,56 +55,39 @@ persistentvolumeclaim/nginx-pvc created
 먼저 PVC를 확인해볼게요.
 ```bash
 controlplane $ kubectl get persistentvolumeclaims
-NAME        STATUS   VOLUME     CAPACITY   ACCESS MODES   STORAGECLASS   AGE
-nginx-pvc   Bound    nginx-pv   3Gi        RWO            manual         24s
+NAME        STATUS    VOLUME   CAPACITY   ACCESS MODES   STORAGECLASS   AGE
+nginx-pvc   Pending                                      local-path     29s
 ```
 > 💻 명령어 `kubectl get persistentvolumeclaims`{{exec}}  
 >또는  
 > 💻 명령어 `kubectl get pvc`{{exec}}
 
-결과를 보니 **VOLUME(nginx-pv)** 도 보이고, STATUS는 **Bound**네요.
+결과를 보니 STATUS는 **Pending**이네요.  
 
 <br><br><br>
 
-그럼, 이번에는 **PersistentVolume**(**PV**)을 볼까요?
+그럼, 이번에는 `kubectl describe` 명령어를 실행해 볼까요?
 ```bash
-controlplane $ kubectl get persistentvolume
-NAME       CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS   CLAIM               STORAGECLASS   REASON   AGE
-nginx-pv   3Gi        RWO            Retain           Bound    default/nginx-pvc   manual                  41s
+controlplane $ kubectl describe pvc nginx-pvc
+Name:          nginx-pvc
+Namespace:     default
+StorageClass:  local-path
+Status:        Pending
+Volume:        
+Labels:        <none>
+Annotations:   <none>
+Finalizers:    [kubernetes.io/pvc-protection]
+Capacity:      
+Access Modes:  
+VolumeMode:    Filesystem
+Used By:       <none>
+Events:
+  Type    Reason                Age                  From                         Message
+  ----    ------                ----                 ----                         -------
+  Normal  WaitForFirstConsumer  4s (x17 over 3m59s)  persistentvolume-controller  waiting for first consumer to be created before binding
 ```
 
-> 💻 명령어 `kubectl get persistentvolume`{{exec}}  
->또는  
-> 💻 명령어 `kubectl get pv`{{exec}}
+> 💻 명령어 `kubectl describe pvc nginx-pvc`{{exec}}  
 
-<br><br><br>
-
-PV를 좀 더 자세히 볼까요?
-```bash
-controlplane $ kubectl describe persistentvolume nginx-pv
-Name:            nginx-pv
-Labels:          type=local
-Annotations:     pv.kubernetes.io/bound-by-controller: yes
-Finalizers:      [kubernetes.io/pv-protection]
-StorageClass:    manual
-Status:          Bound
-Claim:           default/nginx-pvc
-Reclaim Policy:  Retain
-Access Modes:    RWO
-VolumeMode:      Filesystem
-Capacity:        3Gi
-Node Affinity:   <none>
-Message:         
-Source:
-    Type:          HostPath (bare host directory volume)
-    Path:          /mnt/data
-    HostPathType:  
-Events:            <none>
-```
-> 💻 명령어 `kubectl describe persistentvolume [PV-NAME]`{{copy}}  
->또는  
-> 💻 명령어 `kubectl describe pv [PV-NAME]`{{exec}}  
-> [PV-NAME] 에는 앞에서 만들어진 PV의 Name을 넣어주세요.
-
-**Source**아래 내용을 보시면 어디에 Volume영역이 할당되었는지 알 수 있습니다.  
-위의 경우는 **HostPath**타입을 이용했고, **/mnt/data**를 Volume의 위치로 사용하고 있습니다.
+**Events**를 보니 **consumer**를 기다리고 있네요.  
+그럼, consumer를 생성하고 다시 볼까요?
