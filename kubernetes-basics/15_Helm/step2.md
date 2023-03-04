@@ -212,7 +212,7 @@ NOTES:
   http://todo-app.info/
 ```
 
-> 💻 명령어 `helm upgrade --set image.tag=2.0.0 my-todo-app https://github.com/JungSangup/mspt3/raw/main/hands_on_files/todo-app-1.0.0.tgz`{{exec}}
+> 💻 명령어 `helm upgrade --set image.tag=2.0.0 my-todo-app https://github.com/JungSangup/mspt3/raw/main/hands_on_files/todo-app-1.0.0.tgz`{{exec}}  
 > **image.tag**만 변경해서 새로운 버젼으로 업그레이드 합니다.
 
 <br><br><br>
