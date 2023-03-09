@@ -48,13 +48,13 @@ Deployment와 Service가 만들어집니다.
 이제 **hpa**를 생성합니다.
 
 명령어는 다음과 같습니다.  
-CPU 사용량을 50%로 유지하기 위해서 Pod의 개수를 1 에서 10 사이로 조정하라는 의미입니다.
+CPU 사용량을 50%로 유지하기 위해서 Pod의 개수를 1 에서 5 사이로 조정하라는 의미입니다.
 ```bash
-controlplane $ kubectl autoscale deployment php-apache --cpu-percent=30 --min=1 --max=5
+controlplane $ kubectl autoscale deployment php-apache --cpu-percent=50 --min=1 --max=5
 horizontalpodautoscaler.autoscaling/php-apache autoscaled
 ```
 
-> 💻 명령어 `kubectl autoscale deployment php-apache --cpu-percent=30 --min=1 --max=5`{{exec}}
+> 💻 명령어 `kubectl autoscale deployment php-apache --cpu-percent=50 --min=1 --max=5`{{exec}}
 
 <br><br><br>
 
@@ -62,7 +62,7 @@ horizontalpodautoscaler.autoscaling/php-apache autoscaled
 ```bash
 controlplane $ kubectl get hpa
 NAME         REFERENCE               TARGETS   MINPODS   MAXPODS   REPLICAS   AGE
-php-apache   Deployment/php-apache   0%/30%    1         5         1          15s
+php-apache   Deployment/php-apache   0%/50%    1         5         1          15s
 ```
 
 > 💻 명령어 `kubectl get hpa`{{exec}}
@@ -91,7 +91,7 @@ OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK!OK
 ```bash
 controlplane $ kubectl get hpa
 NAME         REFERENCE               TARGETS    MINPODS   MAXPODS   REPLICAS   AGE
-php-apache   Deployment/php-apache   250%/50%   1         10        1          91s
+php-apache   Deployment/php-apache   250%/50%   1         5        1          91s
 
 controlplane $ watch -n 1 kubectl get pods
 ```
