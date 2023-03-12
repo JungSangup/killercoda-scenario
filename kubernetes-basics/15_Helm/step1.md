@@ -122,7 +122,7 @@ controlplane $ ls wordpress*
 wordpress-15.2.48.tgz
 ```
 
-> 💻 명령어 `helm pull bitnami/wordpress`{{exec}}
+> 💻 명령어 `helm pull bitnami/wordpress`{{exec}}  
 > 💻 명령어 `ls wordpress*`{{exec}}
 
 <br><br><br>

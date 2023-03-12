@@ -8,12 +8,27 @@
 ```bash
 controlplane $ helm create my-chart
 Creating my-chart
-controlplane $ ls ./my-chart/
-Chart.yaml  charts  templates  values.yaml
+controlplane $ tree my-chart
+my-chart
+├── Chart.yaml
+├── charts
+├── templates
+│   ├── NOTES.txt
+│   ├── _helpers.tpl
+│   ├── deployment.yaml
+│   ├── hpa.yaml
+│   ├── ingress.yaml
+│   ├── service.yaml
+│   ├── serviceaccount.yaml
+│   └── tests
+│       └── test-connection.yaml
+└── values.yaml
+
+3 directories, 10 files
 ```
 
 > 💻 명령어 `helm create my-chart`{{exec}}  
-> 💻 명령어 `ls ./my-chart/`{{exec}}
+> 💻 명령어 `tree my-chart`{{exec}}
 
 <br><br><br>
 
@@ -350,7 +365,7 @@ NOTES:
 
 접속해서 테스트도 해보세요. (NodePort로 접속)
 
-🔗 [My-chart - Nginx]({{TRAFFIC_HOST1_30007}})
+🔗 [my-nginx]({{TRAFFIC_HOST1_30007}})
 
 <br><br><br>
 
